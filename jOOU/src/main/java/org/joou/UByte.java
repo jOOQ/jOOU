@@ -59,18 +59,59 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      */
     public static final short MAX_VALUE        = 0xff;
 
+    /**
+     * The value modelling the content of this <code>unsigned byte</code>
+     */
     private final short       value;
 
-    public UByte(short value) {
+    /**
+     * Create an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> does not contain a
+     *             parsable <code>unsigned byte</code>.
+     * @see UByte#UByte(String)
+     */
+    public static UByte valueOf(String value) throws NumberFormatException {
+        return new UByte(value);
+    }
+
+    /**
+     * Create an <code>unsigned byte</code> by masking it with <code>0xFF</code>
+     * i.e. <code>(byte) -1</code> becomes <code>(ubyte) 255</code>
+     *
+     * @see UByte#UByte(byte)
+     */
+    public static UByte valueOf(byte value) {
+        return new UByte(value);
+    }
+
+    /**
+     * Create an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned byte</code>
+     * @see UByte#UByte(short)
+     */
+    public UByte(short value) throws NumberFormatException {
         this.value = value;
         rangeCheck();
     }
 
+    /**
+     * Create an <code>unsigned byte</code> by masking it with <code>0xFF</code>
+     * i.e. <code>(byte) -1</code> becomes <code>(ubyte) 255</code>
+     */
     public UByte(byte value) {
         this.value = (short) (value & MAX_VALUE);
     }
 
-    public UByte(String value) {
+    /**
+     * Create an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> does not contain a
+     *             parsable <code>unsigned byte</code>.
+     */
+    public UByte(String value) throws NumberFormatException {
         this.value = Short.parseShort(value);
         rangeCheck();
     }

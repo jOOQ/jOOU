@@ -59,18 +59,60 @@ public final class UShort extends UNumber implements Comparable<UShort> {
      */
     public static final int   MAX_VALUE        = 0xffff;
 
+    /**
+     * The value modelling the content of this <code>unsigned short</code>
+     */
     private final int         value;
 
-    public UShort(int value) {
+    /**
+     * Create an <code>unsigned short</code>
+     *
+     * @throws NumberFormatException If <code>value</code> does not contain a
+     *             parsable <code>unsigned short</code>.
+     * @see UShort#UShort(String)
+     */
+    public static UShort valueOf(String value) throws NumberFormatException {
+        return new UShort(value);
+    }
+
+    /**
+     * Create an <code>unsigned short</code> by masking it with
+     * <code>0xFFFF</code> i.e. <code>(short) -1</code> becomes
+     * <code>(ushort) 65535</code>
+     *
+     * @see UShort#UShort(short)
+     */
+    public static UShort valueOf(short value) {
+        return new UShort(value);
+    }
+
+    /**
+     * Create an <code>unsigned short</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned short</code>
+     */
+    public UShort(int value) throws NumberFormatException {
         this.value = value;
         rangeCheck();
     }
 
+    /**
+     * Create an <code>unsigned short</code> by masking it with
+     * <code>0xFFFF</code> i.e. <code>(short) -1</code> becomes
+     * <code>(ushort) 65535</code>
+     */
     public UShort(short value) {
         this.value = value & MAX_VALUE;
     }
 
-    public UShort(String value) {
+    /**
+     * Create an <code>unsigned short</code>
+     *
+     * @throws NumberFormatException If <code>value</code> does not contain a
+     *             parsable <code>unsigned short</code>.
+     */
+    public UShort(String value) throws NumberFormatException {
         this.value = Integer.parseInt(value);
         rangeCheck();
     }

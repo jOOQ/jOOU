@@ -50,25 +50,66 @@ public final class ULong extends UNumber implements Comparable<ULong> {
     private static final long      serialVersionUID = -6821055240959745390L;
 
     /**
-     * A constant holding the minimum value an <code>unsigned int</code> can
+     * A constant holding the minimum value an <code>unsigned long</code> can
      * have, 0.
      */
     public static final BigInteger MIN_VALUE        = BigInteger.ZERO;
 
     /**
-     * A constant holding the maximum value an <code>unsigned int</code> can
-     * have, 2<sup>32</sup>-1.
+     * A constant holding the maximum value an <code>unsigned long</code> can
+     * have, 2<sup>64</sup>-1.
      */
     public static final BigInteger MAX_VALUE        = new BigInteger("18446744073709551615");
+
+    /**
+     * A constant holding the maximum value + 1 an <code>signed long</code> can
+     * have, 2<sup>63</sup>.
+     */
     public static final BigInteger MAX_VALUE_LONG   = new BigInteger("9223372036854775808");
 
+    /**
+     * The value modelling the content of this <code>unsigned long</code>
+     */
     private final BigInteger       value;
 
-    public ULong(BigInteger value) {
+    /**
+     * Create an <code>unsigned long</code>
+     *
+     * @throws NumberFormatException If <code>value</code> does not contain a
+     *             parsable <code>unsigned long</code>.
+     * @see ULong#ULong(String)
+     */
+    public static ULong valueOf(String value) throws NumberFormatException {
+        return new ULong(value);
+    }
+
+    /**
+     * Create an <code>unsigned long</code> by masking it with
+     * <code>0xFFFFFFFFFFFFFFFF</code> i.e. <code>(long) -1</code> becomes
+     * <code>(uint) 18446744073709551615</code>
+     *
+     * @see ULong#ULong(long)
+     */
+    public static ULong valueOf(long value) {
+        return new ULong(value);
+    }
+
+    /**
+     * Create an <code>unsigned long</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned long</code>
+     */
+    public ULong(BigInteger value) throws NumberFormatException {
         this.value = value;
         rangeCheck();
     }
 
+    /**
+     * Create an <code>unsigned long</code> by masking it with
+     * <code>0xFFFFFFFFFFFFFFFF</code> i.e. <code>(long) -1</code> becomes
+     * <code>(uint) 18446744073709551615</code>
+     */
     public ULong(long value) {
         if (value >= 0) {
             this.value = BigInteger.valueOf(value);
@@ -78,7 +119,13 @@ public final class ULong extends UNumber implements Comparable<ULong> {
         }
     }
 
-    public ULong(String value) {
+    /**
+     * Create an <code>unsigned long</code>
+     *
+     * @throws NumberFormatException If <code>value</code> does not contain a
+     *             parsable <code>unsigned long</code>.
+     */
+    public ULong(String value) throws NumberFormatException {
         this.value = new BigInteger(value);
         rangeCheck();
     }

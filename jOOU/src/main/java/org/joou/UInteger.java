@@ -59,18 +59,60 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
      */
     public static final long  MAX_VALUE        = 0xffffffffL;
 
+    /**
+     * The value modelling the content of this <code>unsigned int</code>
+     */
     private final long        value;
 
-    public UInteger(long value) {
+    /**
+     * Create an <code>unsigned int</code>
+     *
+     * @throws NumberFormatException If <code>value</code> does not contain a
+     *             parsable <code>unsigned int</code>.
+     * @see UInteger#UInteger(String)
+     */
+    public static UInteger valueOf(String value) throws NumberFormatException {
+        return new UInteger(value);
+    }
+
+    /**
+     * Create an <code>unsigned int</code> by masking it with
+     * <code>0xFFFFFFFF</code> i.e. <code>(int) -1</code> becomes
+     * <code>(uint) 4294967295</code>
+     *
+     * @see UInteger#UInteger(int)
+     */
+    public static UInteger valueOf(int value) {
+        return new UInteger(value);
+    }
+
+    /**
+     * Create an <code>unsigned int</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned int</code>
+     */
+    public UInteger(long value) throws NumberFormatException {
         this.value = value;
         rangeCheck();
     }
 
+    /**
+     * Create an <code>unsigned int</code> by masking it with
+     * <code>0xFFFFFFFF</code> i.e. <code>(int) -1</code> becomes
+     * <code>(uint) 4294967295</code>
+     */
     public UInteger(int value) {
         this.value = value & MAX_VALUE;
     }
 
-    public UInteger(String value) {
+    /**
+     * Create an <code>unsigned int</code>
+     *
+     * @throws NumberFormatException If <code>value</code> does not contain a
+     *             parsable <code>unsigned int</code>.
+     */
+    public UInteger(String value) throws NumberFormatException {
         this.value = Long.parseLong(value);
         rangeCheck();
     }
