@@ -1,0 +1,8 @@
+jOOU Release notes
+------------------
+For an overview, see also http://code.google.com/p/joou/issues/list
+
+Version 0.9.0
+=================================================================
+
+This is the initial release providing basic wrapping functionality
