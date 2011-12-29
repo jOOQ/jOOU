@@ -1,0 +1,19 @@
+jOOU is filling up the gap with one of Java's most wanted features: The unsigned number types.
+
+Incredibly, there seems no simple implementation available for just the four basic unsigned integer types as wrappers:
+
+UByte, UShort, UInteger, ULong
+
+See also this stack overflow question here: http://stackoverflow.com/questions/8193031/is-there-a-java-library-for-unsigned-number-type-wrappers
+
+So I have implemented these four classes, extending java.lang.Number and implementing java.lang.Comparable<?>. Besides, there is a utility class called org.joou.Unsigned with factory methods allowing for creating unsigned wrappers like this:
+
+import static org.joou.Unsigned.*;
+
+// and then...
+UByte    b = ubyte(1);
+UShort   s = ushort(1);
+UInteger i = uint(1);
+ULong    l = ulong(1);
+
+This was created for http://www.jooq.org, to provide better support for MySQL, Postgres, and other databases' unsigned integer data types. 
