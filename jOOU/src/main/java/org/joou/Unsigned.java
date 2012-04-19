@@ -66,7 +66,7 @@ public final class Unsigned {
      * @see UByte#UByte(byte)
      */
     public static UByte ubyte(byte value) {
-        return new UByte(value);
+        return UByte.valueOf(value);
     }
 
     /**
@@ -77,7 +77,29 @@ public final class Unsigned {
      * @see UByte#UByte(short)
      */
     public static UByte ubyte(short value) throws NumberFormatException {
-        return new UByte(value);
+        return UByte.valueOf(value);
+    }
+
+    /**
+     * Create an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned byte</code>
+     * @see UByte#UByte(short)
+     */
+    public static UByte ubyte(int value) throws NumberFormatException {
+        return UByte.valueOf(value);
+    }
+
+    /**
+     * Create an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned byte</code>
+     * @see UByte#UByte(short)
+     */
+    public static UByte ubyte(long value) throws NumberFormatException {
+        return UByte.valueOf(value);
     }
 
     /**
