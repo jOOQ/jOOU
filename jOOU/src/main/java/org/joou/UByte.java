@@ -35,6 +35,9 @@
  */
 package org.joou;
 
+import java.io.ObjectStreamException;
+import java.math.BigInteger;
+
 /**
  * The <code>unsigned byte</code> type
  *
@@ -46,6 +49,11 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      * Generated UID
      */
     private static final long serialVersionUID = -6821055240959745390L;
+
+    /**
+     * Cached values
+     */
+    private static final UByte[] VALUES = mkValues();
 
     /**
      * A constant holding the minimum value an <code>unsigned byte</code> can
@@ -65,24 +73,96 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     private final short       value;
 
     /**
-     * Create an <code>unsigned byte</code>
+     * Generate a cached value for each byte value.
+     * @return Array of cached values for UByte.
+     */
+    private static final UByte[] mkValues()
+    {
+        UByte[] ret = new UByte[256];
+
+        for(int i=Byte.MIN_VALUE;i<=Byte.MAX_VALUE;i++)
+            ret[i & MAX_VALUE] = new UByte((byte)i);
+        return ret;
+    }
+
+    /**
+     * Get an instance of an <code>unsigned byte</code>
      *
      * @throws NumberFormatException If <code>value</code> does not contain a
      *             parsable <code>unsigned byte</code>.
      * @see UByte#UByte(String)
      */
     public static UByte valueOf(String value) throws NumberFormatException {
-        return new UByte(value);
+        return valueOf(rangeCheck(Short.parseShort(value)));
     }
 
     /**
-     * Create an <code>unsigned byte</code> by masking it with <code>0xFF</code>
+     * Get an instance of an <code>unsigned byte</code> by masking it with <code>0xFF</code>
      * i.e. <code>(byte) -1</code> becomes <code>(ubyte) 255</code>
      *
      * @see UByte#UByte(byte)
      */
     public static UByte valueOf(byte value) {
-        return new UByte(value);
+        return valueOfUnchecked((short)((short)value & MAX_VALUE));
+    }
+
+    private static UByte valueOfUnchecked(short value) throws NumberFormatException {
+        return VALUES[value & MAX_VALUE];
+    }
+
+    /**
+     * Get an instance of an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned byte</code>
+     * @see UByte#UByte(short)
+     */
+    public static UByte valueOf(short value) throws NumberFormatException {
+        return valueOfUnchecked(rangeCheck(value));
+    }
+
+    /**
+     * Get an instance of an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned byte</code>
+     * @see UByte#UByte(int)
+     */
+    public static UByte valueOf(int value) throws NumberFormatException {
+        return valueOfUnchecked(rangeCheck(value));
+    }
+
+    /**
+     * Get an instance of an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned byte</code>
+     * @see UByte#UByte(long)
+     */
+    public static UByte valueOf(long value) throws NumberFormatException {
+        return valueOfUnchecked(rangeCheck(value));
+    }
+
+    /**
+     * Create an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned byte</code>
+     * @see UByte#UByte(short)
+     */
+    public UByte(long value) throws NumberFormatException {
+        this.value = rangeCheck(value);
+    }
+
+    /**
+     * Create an <code>unsigned byte</code>
+     *
+     * @throws NumberFormatException If <code>value</code> is not in the range
+     *             of an <code>unsigned byte</code>
+     * @see UByte#UByte(short)
+     */
+    public UByte(int value) throws NumberFormatException {
+        this.value = rangeCheck(value);
     }
 
     /**
@@ -93,8 +173,7 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      * @see UByte#UByte(short)
      */
     public UByte(short value) throws NumberFormatException {
-        this.value = value;
-        rangeCheck();
+        this.value = rangeCheck(value);
     }
 
     /**
@@ -112,14 +191,57 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *             parsable <code>unsigned byte</code>.
      */
     public UByte(String value) throws NumberFormatException {
-        this.value = Short.parseShort(value);
-        rangeCheck();
+        this.value = rangeCheck(Short.parseShort(value));
     }
 
-    private void rangeCheck() throws NumberFormatException {
+    /**
+     * Throw exception if value out of range (short version)
+     * @param value Value to check
+     * @return value if it is in range
+     * @throws NumberFormatException if value is out of range
+     */
+    private static short rangeCheck(short value) throws NumberFormatException {
         if (value < MIN_VALUE || value > MAX_VALUE) {
             throw new NumberFormatException("Value is out of range : " + value);
         }
+        return value;
+    }
+
+    /**
+     * Throw exception if value out of range (int version)
+     * @param value Value to check
+     * @return value if it is in range
+     * @throws NumberFormatException if value is out of range
+     */
+    private static short rangeCheck(int value) throws NumberFormatException {
+        if (value < MIN_VALUE || value > MAX_VALUE) {
+            throw new NumberFormatException("Value is out of range : " + value);
+        }
+        return (short)value;
+    }
+
+    /**
+     * Throw exception if value out of range (long version)
+     * @param value Value to check
+     * @return value if it is in range
+     * @throws NumberFormatException if value is out of range
+     */
+    private static short rangeCheck(long value) throws NumberFormatException {
+        if (value < MIN_VALUE || value > MAX_VALUE) {
+            throw new NumberFormatException("Value is out of range : " + value);
+        }
+        return (short)value;
+    }
+
+    /**
+     * Replace version read through deserialization with
+     * cached version. Note that this does not use the
+     * {@link valueOfUnchecked(short)} as we have no guarantee that the
+     * value from the stream is valid.
+     * @return cached instance of this object's value
+     */
+    private Object readResolve() throws ObjectStreamException {
+        return valueOf(value);
     }
 
     @Override
@@ -149,6 +271,8 @@ public final class UByte extends UNumber implements Comparable<UByte> {
 
     @Override
     public boolean equals(Object obj) {
+        if(this == obj)
+            return true;
         if (obj instanceof UByte) {
             return value == ((UByte) obj).value;
         }
@@ -165,4 +289,10 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     public int compareTo(UByte o) {
         return (value < o.value ? -1 : (value == o.value ? 0 : 1));
     }
+
+    @Override
+    public BigInteger toBigInteger() {
+        return BigInteger.valueOf(value);
+    }
+
 }
