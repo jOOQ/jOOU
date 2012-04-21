@@ -48,40 +48,40 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = -6821055240959745390L;
+    private static final long    serialVersionUID = -6821055240959745390L;
 
     /**
      * Cached values
      */
-    private static final UByte[] VALUES = mkValues();
+    private static final UByte[] VALUES           = mkValues();
 
     /**
      * A constant holding the minimum value an <code>unsigned byte</code> can
      * have, 0.
      */
-    public static final short MIN_VALUE        = 0x00;
+    public static final short    MIN_VALUE        = 0x00;
 
     /**
      * A constant holding the maximum value an <code>unsigned byte</code> can
      * have, 2<sup>8</sup>-1.
      */
-    public static final short MAX_VALUE        = 0xff;
+    public static final short    MAX_VALUE        = 0xff;
 
     /**
      * The value modelling the content of this <code>unsigned byte</code>
      */
-    private final short       value;
+    private final short          value;
 
     /**
      * Generate a cached value for each byte value.
+     *
      * @return Array of cached values for UByte.
      */
-    private static final UByte[] mkValues()
-    {
+    private static final UByte[] mkValues() {
         UByte[] ret = new UByte[256];
 
-        for(int i=Byte.MIN_VALUE;i<=Byte.MAX_VALUE;i++)
-            ret[i & MAX_VALUE] = new UByte((byte)i);
+        for (int i = Byte.MIN_VALUE; i <= Byte.MAX_VALUE; i++)
+            ret[i & MAX_VALUE] = new UByte((byte) i);
         return ret;
     }
 
@@ -97,13 +97,14 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     }
 
     /**
-     * Get an instance of an <code>unsigned byte</code> by masking it with <code>0xFF</code>
-     * i.e. <code>(byte) -1</code> becomes <code>(ubyte) 255</code>
+     * Get an instance of an <code>unsigned byte</code> by masking it with
+     * <code>0xFF</code> i.e. <code>(byte) -1</code> becomes
+     * <code>(ubyte) 255</code>
      *
      * @see UByte#UByte(byte)
      */
     public static UByte valueOf(byte value) {
-        return valueOfUnchecked((short)((short)value & MAX_VALUE));
+        return valueOfUnchecked((short) (value & MAX_VALUE));
     }
 
     private static UByte valueOfUnchecked(short value) throws NumberFormatException {
@@ -196,6 +197,7 @@ public final class UByte extends UNumber implements Comparable<UByte> {
 
     /**
      * Throw exception if value out of range (short version)
+     *
      * @param value Value to check
      * @return value if it is in range
      * @throws NumberFormatException if value is out of range
@@ -209,6 +211,7 @@ public final class UByte extends UNumber implements Comparable<UByte> {
 
     /**
      * Throw exception if value out of range (int version)
+     *
      * @param value Value to check
      * @return value if it is in range
      * @throws NumberFormatException if value is out of range
@@ -217,11 +220,12 @@ public final class UByte extends UNumber implements Comparable<UByte> {
         if (value < MIN_VALUE || value > MAX_VALUE) {
             throw new NumberFormatException("Value is out of range : " + value);
         }
-        return (short)value;
+        return (short) value;
     }
 
     /**
      * Throw exception if value out of range (long version)
+     *
      * @param value Value to check
      * @return value if it is in range
      * @throws NumberFormatException if value is out of range
@@ -230,15 +234,16 @@ public final class UByte extends UNumber implements Comparable<UByte> {
         if (value < MIN_VALUE || value > MAX_VALUE) {
             throw new NumberFormatException("Value is out of range : " + value);
         }
-        return (short)value;
+        return (short) value;
     }
 
     /**
-     * Replace version read through deserialization with
-     * cached version. Note that this does not use the
-     * {@link valueOfUnchecked(short)} as we have no guarantee that the
-     * value from the stream is valid.
+     * Replace version read through deserialization with cached version. Note
+     * that this does not use the {@link valueOfUnchecked(short)} as we have no
+     * guarantee that the value from the stream is valid.
+     *
      * @return cached instance of this object's value
+     * @throws ObjectStreamException
      */
     private Object readResolve() throws ObjectStreamException {
         return valueOf(value);
@@ -271,7 +276,7 @@ public final class UByte extends UNumber implements Comparable<UByte> {
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj)
+        if (this == obj)
             return true;
         if (obj instanceof UByte) {
             return value == ((UByte) obj).value;
@@ -294,5 +299,4 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     public BigInteger toBigInteger() {
         return BigInteger.valueOf(value);
     }
-
 }
