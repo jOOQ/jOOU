@@ -2,6 +2,17 @@ jOOU Release notes
 ------------------
 For an overview, see also http://code.google.com/p/joou/issues/list
 
+Version 0.9.1
+=================================================================
+
+Features and improvements
+-------------------------
+
+#1   - Add Unsigned.ubyte(int) and ubyte(long) constructors
+#2   - Cache all possible UByte values for improved performance
+#3   - Deprecate public constructors. Do not encourage to
+       construct unsigned numbers directly
+
 Version 0.9.0
 =================================================================
 
