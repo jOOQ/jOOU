@@ -90,7 +90,6 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *
      * @throws NumberFormatException If <code>value</code> does not contain a
      *             parsable <code>unsigned byte</code>.
-     * @see UByte#UByte(String)
      */
     public static UByte valueOf(String value) throws NumberFormatException {
         return valueOf(rangeCheck(Short.parseShort(value)));
@@ -100,8 +99,6 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      * Get an instance of an <code>unsigned byte</code> by masking it with
      * <code>0xFF</code> i.e. <code>(byte) -1</code> becomes
      * <code>(ubyte) 255</code>
-     *
-     * @see UByte#UByte(byte)
      */
     public static UByte valueOf(byte value) {
         return valueOfUnchecked((short) (value & MAX_VALUE));
@@ -116,7 +113,6 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *
      * @throws NumberFormatException If <code>value</code> is not in the range
      *             of an <code>unsigned byte</code>
-     * @see UByte#UByte(short)
      */
     public static UByte valueOf(short value) throws NumberFormatException {
         return valueOfUnchecked(rangeCheck(value));
@@ -127,7 +123,6 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *
      * @throws NumberFormatException If <code>value</code> is not in the range
      *             of an <code>unsigned byte</code>
-     * @see UByte#UByte(int)
      */
     public static UByte valueOf(int value) throws NumberFormatException {
         return valueOfUnchecked(rangeCheck(value));
@@ -138,7 +133,6 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *
      * @throws NumberFormatException If <code>value</code> is not in the range
      *             of an <code>unsigned byte</code>
-     * @see UByte#UByte(long)
      */
     public static UByte valueOf(long value) throws NumberFormatException {
         return valueOfUnchecked(rangeCheck(value));
@@ -149,8 +143,10 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *
      * @throws NumberFormatException If <code>value</code> is not in the range
      *             of an <code>unsigned byte</code>
-     * @see UByte#UByte(short)
+     * @deprecated - Use {@link #valueOf(long)}, or {@link Unsigned#ubyte(long)}
+     *             instead
      */
+    @Deprecated
     public UByte(long value) throws NumberFormatException {
         this.value = rangeCheck(value);
     }
@@ -160,8 +156,10 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *
      * @throws NumberFormatException If <code>value</code> is not in the range
      *             of an <code>unsigned byte</code>
-     * @see UByte#UByte(short)
+     * @deprecated - Use {@link #valueOf(int)}, or {@link Unsigned#ubyte(int)}
+     *             instead
      */
+    @Deprecated
     public UByte(int value) throws NumberFormatException {
         this.value = rangeCheck(value);
     }
@@ -171,8 +169,10 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *
      * @throws NumberFormatException If <code>value</code> is not in the range
      *             of an <code>unsigned byte</code>
-     * @see UByte#UByte(short)
+     * @deprecated - Use {@link #valueOf(short)}, or
+     *             {@link Unsigned#ubyte(short)} instead
      */
+    @Deprecated
     public UByte(short value) throws NumberFormatException {
         this.value = rangeCheck(value);
     }
@@ -180,7 +180,11 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     /**
      * Create an <code>unsigned byte</code> by masking it with <code>0xFF</code>
      * i.e. <code>(byte) -1</code> becomes <code>(ubyte) 255</code>
+     *
+     * @deprecated - Use {@link #valueOf(byte)}, or {@link Unsigned#ubyte(byte)}
+     *             instead
      */
+    @Deprecated
     public UByte(byte value) {
         this.value = (short) (value & MAX_VALUE);
     }
@@ -190,7 +194,10 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *
      * @throws NumberFormatException If <code>value</code> does not contain a
      *             parsable <code>unsigned byte</code>.
+     * @deprecated - Use {@link #valueOf(String)}, or
+     *             {@link Unsigned#ubyte(String)} instead
      */
+    @Deprecated
     public UByte(String value) throws NumberFormatException {
         this.value = rangeCheck(Short.parseShort(value));
     }
