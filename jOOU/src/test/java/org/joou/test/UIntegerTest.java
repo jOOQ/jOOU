@@ -36,8 +36,8 @@
 package org.joou.test;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import static org.joou.Unsigned.uint;
 
@@ -103,12 +103,12 @@ public class UIntegerTest {
     @Test
     public void testValueOfLongInvalid() {
         try {
-            uint((long) (UInteger.MIN_VALUE) - 1);
+            uint((UInteger.MIN_VALUE) - 1);
             fail();
         }
         catch (NumberFormatException e) {}
         try {
-            uint((long) (UInteger.MAX_VALUE) + 1);
+            uint((UInteger.MAX_VALUE) + 1);
             fail();
         }
         catch (NumberFormatException e) {}

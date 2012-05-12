@@ -203,7 +203,7 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
      * <code>(uint) 4294967295</code>
      */
     public static UInteger valueOf(int value) {
-        return valueOfUnchecked((long)value & MAX_VALUE);
+        return valueOfUnchecked(value & MAX_VALUE);
     }
 
     /**
