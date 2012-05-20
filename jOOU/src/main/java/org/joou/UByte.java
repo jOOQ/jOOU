@@ -93,7 +93,7 @@ public final class UByte extends UNumber implements Comparable<UByte> {
      *             parsable <code>unsigned byte</code>.
      */
     public static UByte valueOf(String value) throws NumberFormatException {
-        return valueOf(rangeCheck(Short.parseShort(value)));
+        return valueOfUnchecked(rangeCheck(Short.parseShort(value)));
     }
 
     /**
@@ -105,6 +105,9 @@ public final class UByte extends UNumber implements Comparable<UByte> {
         return valueOfUnchecked((short) (value & MAX_VALUE));
     }
 
+    /**
+      * Get the value of a short without checking the value.
+      */
     private static UByte valueOfUnchecked(short value) throws NumberFormatException {
         return VALUES[value & MAX_VALUE];
     }
@@ -247,7 +250,7 @@ public final class UByte extends UNumber implements Comparable<UByte> {
 
     /**
      * Replace version read through deserialization with cached version. Note
-     * that this does not use the {@link valueOfUnchecked(short)} as we have no
+     * that this does not use the {@link #valueOfUnchecked(short)} as we have no
      * guarantee that the value from the stream is valid.
      *
      * @return cached instance of this object's value
