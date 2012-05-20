@@ -41,6 +41,7 @@ import java.io.ObjectStreamException;
  * The <code>unsigned int</code> type
  *
  * @author Lukas Eder
+ * @author Ed Schaller
  */
 public final class UInteger extends UNumber implements Comparable<UInteger> {
     private static final Class<UInteger> CLASS = UInteger.class;

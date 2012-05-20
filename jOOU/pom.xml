@@ -148,6 +148,10 @@
             <name>Lukas Eder</name>
             <email>lukas.eder@gmail.com</email>
         </developer>
+        <developer>
+            <name>Ed Schaller</name>
+            <email>schallee@darkmist.net</email>
+        </developer>
     </developers>
 
     <dependencies>
