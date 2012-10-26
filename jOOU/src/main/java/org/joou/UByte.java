@@ -106,8 +106,8 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     }
 
     /**
-      * Get the value of a short without checking the value.
-      */
+     * Get the value of a short without checking the value.
+     */
     private static UByte valueOfUnchecked(short value) throws NumberFormatException {
         return VALUES[value & MAX_VALUE];
     }

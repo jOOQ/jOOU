@@ -44,94 +44,91 @@ import java.io.ObjectStreamException;
  * @author Ed Schaller
  */
 public final class UInteger extends UNumber implements Comparable<UInteger> {
-    private static final Class<UInteger> CLASS = UInteger.class;
-    private static final String CLASS_NAME = CLASS.getName();
+    private static final Class<UInteger> CLASS                 = UInteger.class;
+    private static final String          CLASS_NAME            = CLASS.getName();
 
     /**
-     * System property name for the property to set the size of the
-     * pre-cache.
+     * System property name for the property to set the size of the pre-cache.
      */
-    private static final String PRECACHE_PROPERTY = CLASS_NAME + ".precacheSize";
+    private static final String          PRECACHE_PROPERTY     = CLASS_NAME + ".precacheSize";
 
     /**
      * Default size for the value cache.
      */
-    private static final int DEFAULT_PRECACHE_SIZE = 256;
+    private static final int             DEFAULT_PRECACHE_SIZE = 256;
 
     /**
      * Generated UID
      */
-    private static final long serialVersionUID = -6821055240959745390L;
+    private static final long            serialVersionUID      = -6821055240959745390L;
 
     /**
      * Cached values
      */
-    private static final UInteger[] VALUES = mkValues();
+    private static final UInteger[]      VALUES                = mkValues();
 
     /**
      * A constant holding the minimum value an <code>unsigned int</code> can
      * have, 0.
      */
-    public static final long  MIN_VALUE        = 0x00000000;
+    public static final long             MIN_VALUE             = 0x00000000;
 
     /**
      * A constant holding the maximum value an <code>unsigned int</code> can
      * have, 2<sup>32</sup>-1.
      */
-    public static final long  MAX_VALUE        = 0xffffffffL;
+    public static final long             MAX_VALUE             = 0xffffffffL;
 
     /**
      * The value modelling the content of this <code>unsigned int</code>
      */
-    private final long        value;
+    private final long                   value;
 
     /**
      * Figure out the size of the precache.
+     *
      * @return The parsed value of the system property
-     * {@link #PRECACHE_PROPERTY} or {@link #DEFAULT_PRECACHE_SIZE}
-     * if the property is not set, not a number or retrieving results
-     * in a {@link SecurityException}. If the parsed value is zero or
-     * negative no cache will be created. If the value is larger than
-     * {@link Integer#MAX_VALUE} then Integer#MAX_VALUE will be used.
+     *         {@link #PRECACHE_PROPERTY} or {@link #DEFAULT_PRECACHE_SIZE} if
+     *         the property is not set, not a number or retrieving results in a
+     *         {@link SecurityException}. If the parsed value is zero or
+     *         negative no cache will be created. If the value is larger than
+     *         {@link Integer#MAX_VALUE} then Integer#MAX_VALUE will be used.
      */
-    private static final int getPrecacheSize()
-    {
+    private static final int getPrecacheSize() {
         String prop = null;
         long propParsed;
 
-        try
-        {
+        try {
             prop = System.getProperty(PRECACHE_PROPERTY);
         }
-        catch(SecurityException e)
-        {   // security manager stopped us so use default
+        catch (SecurityException e) {
+            // security manager stopped us so use default
             // FIXME: should we log this somewhere?
             return DEFAULT_PRECACHE_SIZE;
         }
-        if(prop == null)
-                return DEFAULT_PRECACHE_SIZE;
-        if(prop.length() <= 0)
-        {   // empty value
+        if (prop == null)
+            return DEFAULT_PRECACHE_SIZE;
+        if (prop.length() <= 0) {
+            // empty value
             // FIXME: should we log this somewhere?
             return DEFAULT_PRECACHE_SIZE;
         }
-        try
-        {
+        try {
             propParsed = Long.parseLong(prop);
         }
-        catch(NumberFormatException e)
-        {   // not a valid number
+        catch (NumberFormatException e) {
+            // not a valid number
             // FIXME: should we log this somewhere?
             return DEFAULT_PRECACHE_SIZE;
         }
         // treat negative value as no cache...
-        if(propParsed < 0)
+        if (propParsed < 0)
             return 0;
-        if(propParsed > Integer.MAX_VALUE)
-        {   // FIXME: should we log this somewhere
+        if (propParsed > Integer.MAX_VALUE) {
+            // FIXME: should we log this somewhere
             return Integer.MAX_VALUE;
         }
-        return (int)propParsed;
+        return (int) propParsed;
     }
 
     /**
@@ -143,7 +140,7 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
         int precacheSize = getPrecacheSize();
         UInteger[] ret;
 
-        if(precacheSize <= 0)
+        if (precacheSize <= 0)
             return null;
         ret = new UInteger[precacheSize];
         for (int i = 0; i < precacheSize; i++)
@@ -152,38 +149,37 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
     }
 
     /**
-     * Unchecked internal constructor. This serves two purposes: first it
-     * allows {@link #UInteger(long)} to stay deprecated without warnings
-     * and second constructor without unnecessary value checks.
+     * Unchecked internal constructor. This serves two purposes: first it allows
+     * {@link #UInteger(long)} to stay deprecated without warnings and second
+     * constructor without unnecessary value checks.
+     *
      * @param value The value to wrap
-     * @param unused Unused paramater to distinguish between this and
-     *     the deprecated public constructor.
+     * @param unused Unused paramater to distinguish between this and the
+     *            deprecated public constructor.
      */
-    private UInteger(long value, boolean unused)
-    {
+    private UInteger(long value, boolean unused) {
         this.value = value;
     }
 
     /**
      * Retrieve a cached value.
+     *
      * @param value Cached value to retrieve
      * @return Cached value if one exists. Null otherwise.
      */
-    private static UInteger getCached(long value)
-    {
-        if(VALUES != null && value < VALUES.length)
-            return VALUES[(int)value];
+    private static UInteger getCached(long value) {
+        if (VALUES != null && value < VALUES.length)
+            return VALUES[(int) value];
         return null;
     }
 
     /**
-      * Get the value of a long without checking the value.
-      */
-    private static UInteger valueOfUnchecked(long value)
-    {
+     * Get the value of a long without checking the value.
+     */
+    private static UInteger valueOfUnchecked(long value) {
         UInteger cached;
 
-        if((cached = getCached(value))!=null)
+        if ((cached = getCached(value)) != null)
             return cached;
         return new UInteger(value, true);
     }
@@ -262,8 +258,9 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
 
     /**
      * Replace version read through deserialization with cached version.
-     * @return cached instance of this object's value if one exists,
-     *     otherwise this object
+     *
+     * @return cached instance of this object's value if one exists, otherwise
+     *         this object
      * @throws ObjectStreamException
      */
     private Object readResolve() throws ObjectStreamException {
@@ -271,7 +268,7 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
 
         // the value read could be invalid so check it
         rangeCheck(value);
-        if((cached = getCached(value))!=null)
+        if ((cached = getCached(value)) != null)
             return cached;
         return this;
     }
