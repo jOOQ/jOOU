@@ -222,11 +222,8 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
      *
      * @throws NumberFormatException If <code>value</code> is not in the range
      *             of an <code>unsigned int</code>
-     * @deprecated - Use {@link #valueOf(long)}, or {@link Unsigned#uint(long)}
-     *             instead
      */
-    @Deprecated
-    public UInteger(long value) throws NumberFormatException {
+    private UInteger(long value) throws NumberFormatException {
         this.value = rangeCheck(value);
     }
 
@@ -234,12 +231,8 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
      * Create an <code>unsigned int</code> by masking it with
      * <code>0xFFFFFFFF</code> i.e. <code>(int) -1</code> becomes
      * <code>(uint) 4294967295</code>
-     *
-     * @deprecated - Use {@link #valueOf(int)}, or {@link Unsigned#uint(int)}
-     *             instead
      */
-    @Deprecated
-    public UInteger(int value) {
+    private UInteger(int value) {
         this.value = value & MAX_VALUE;
     }
 
@@ -248,11 +241,8 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
      *
      * @throws NumberFormatException If <code>value</code> does not contain a
      *             parsable <code>unsigned int</code>.
-     * @deprecated - Use {@link #valueOf(String)}, or
-     *             {@link Unsigned#uint(String)} instead
      */
-    @Deprecated
-    public UInteger(String value) throws NumberFormatException {
+    private UInteger(String value) throws NumberFormatException {
         this.value = rangeCheck(Long.parseLong(value));
     }
 
@@ -313,8 +303,8 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj)
-	    return true;
+        if (this == obj)
+            return true;
         if (obj instanceof UInteger) {
             return value == ((UInteger) obj).value;
         }
