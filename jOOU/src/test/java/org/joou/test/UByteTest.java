@@ -156,7 +156,7 @@ public class UByteTest {
     @Test
     public void testAddUByteInvalid() throws Exception {
         try {
-            assertEquals(ubyte(3), ubyte(UByte.MAX_VALUE).add(ubyte(1)));
+            assertEquals(ubyte(3), UByte.MAX_UBYTE.add(ubyte(1)));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -169,7 +169,12 @@ public class UByteTest {
     @Test
     public void testAddIntInvalid() throws Exception {
         try {
-            assertEquals(ubyte(3), ubyte(UByte.MAX_VALUE).add(1));
+            assertEquals(ubyte(3), UByte.MAX_UBYTE.add(1));
+            fail();
+        } catch (NumberFormatException e) {}
+
+        try {
+            assertEquals(ubyte(3), UByte.MIN_UBYTE.add(-1));
             fail();
         } catch (NumberFormatException e) {}
     }
