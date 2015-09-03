@@ -294,4 +294,13 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     public BigInteger toBigInteger() {
         return BigInteger.valueOf(value);
     }
+
+    public UByte add(UByte val) throws NumberFormatException {
+        return valueOf(intValue() + val.intValue());
+    }
+
+    public UByte add(int val) throws NumberFormatException {
+        return valueOf(intValue() + val);
+    }
+
 }

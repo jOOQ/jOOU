@@ -35,19 +35,18 @@
  */
 package org.joou.test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-import static org.joou.Unsigned.ubyte;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
 import org.joou.UByte;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+import static org.joou.Unsigned.ubyte;
 
 public class UByteTest {
 
@@ -147,6 +146,32 @@ public class UByteTest {
         actual = (UByte) o;
         assertEquals(expected, actual); // same value
         assertTrue(expected == actual); // identical objects
+    }
+
+    @Test
+    public void testAddUByteValid() throws Exception {
+        assertEquals(ubyte(3), ubyte(1).add(ubyte(2)));
+    }
+
+    @Test
+    public void testAddUByteInvalid() throws Exception {
+        try {
+            assertEquals(ubyte(3), ubyte(UByte.MAX_VALUE).add(ubyte(1)));
+            fail();
+        } catch (NumberFormatException e) {}
+    }
+
+    @Test
+    public void testAddIntValid() throws Exception {
+        assertEquals(ubyte(3), ubyte(1).add(2));
+    }
+
+    @Test
+    public void testAddIntInvalid() throws Exception {
+        try {
+            assertEquals(ubyte(3), ubyte(UByte.MAX_VALUE).add(1));
+            fail();
+        } catch (NumberFormatException e) {}
     }
 
 }
