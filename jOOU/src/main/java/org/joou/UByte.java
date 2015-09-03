@@ -315,4 +315,11 @@ public final class UByte extends UNumber implements Comparable<UByte> {
         return valueOf(intValue() + val);
     }
 
+    public UByte subtract(final UByte val) {
+        return valueOf(intValue() - val.intValue());
+    }
+
+    public UByte subtract(final int val) {
+        return valueOf(intValue() - val);
+    }
 }

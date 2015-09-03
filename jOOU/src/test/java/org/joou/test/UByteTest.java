@@ -156,7 +156,7 @@ public class UByteTest {
     @Test
     public void testAddUByteInvalid() throws Exception {
         try {
-            assertEquals(ubyte(3), UByte.MAX_UBYTE.add(ubyte(1)));
+            UByte.MAX_UBYTE.add(ubyte(1));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -169,12 +169,43 @@ public class UByteTest {
     @Test
     public void testAddIntInvalid() throws Exception {
         try {
-            assertEquals(ubyte(3), UByte.MAX_UBYTE.add(1));
+            UByte.MAX_UBYTE.add(1);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            assertEquals(ubyte(3), UByte.MIN_UBYTE.add(-1));
+            UByte.MIN_UBYTE.add(-1);
+            fail();
+        } catch (NumberFormatException e) {}
+    }
+
+    @Test
+    public void testSubtractUByteValid() throws Exception {
+        assertEquals(ubyte(1), ubyte(3).subtract(ubyte(2)));
+    }
+
+    @Test
+    public void testSubtractUByteInvalid() throws Exception {
+        try {
+            UByte.MIN_UBYTE.subtract(ubyte(1));
+            fail();
+        } catch (NumberFormatException e) {}
+    }
+
+    @Test
+    public void testSubtractIntValid() throws Exception {
+        assertEquals(ubyte(1), ubyte(3).subtract(2));
+    }
+
+    @Test
+    public void testSubtractIntInvalid() throws Exception {
+        try {
+            UByte.MIN_UBYTE.subtract(1);
+            fail();
+        } catch (NumberFormatException e) {}
+
+        try {
+            UByte.MAX_UBYTE.subtract(-1);
             fail();
         } catch (NumberFormatException e) {}
     }
