@@ -308,18 +308,18 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     }
 
     public UByte add(UByte val) throws NumberFormatException {
-        return valueOf(intValue() + val.intValue());
+        return valueOf(value + val.value);
     }
 
     public UByte add(int val) throws NumberFormatException {
-        return valueOf(intValue() + val);
+        return valueOf(value + val);
     }
 
     public UByte subtract(final UByte val) {
-        return valueOf(intValue() - val.intValue());
+        return valueOf(value - val.value);
     }
 
     public UByte subtract(final int val) {
-        return valueOf(intValue() - val);
+        return valueOf(value - val);
     }
 }
