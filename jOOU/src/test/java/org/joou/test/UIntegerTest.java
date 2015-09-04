@@ -35,20 +35,19 @@
  */
 package org.joou.test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-import static org.joou.Unsigned.uint;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
 import org.joou.UInteger;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+import static org.joou.Unsigned.uint;
 
 public class UIntegerTest {
     private static final int CACHE_SIZE=256;
@@ -135,6 +134,73 @@ public class UIntegerTest {
         actual = (UInteger) o;
         assertEquals(expected, actual); // same value
         assertTrue(expected == actual); // identical objects
+    }
+
+    @Test
+    public void testAddUIntegerValid() throws Exception {
+        assertEquals(uint(3), uint(1).add(uint(2)));
+    }
+
+    @Test
+    public void testAddUIntegerInvalid() throws Exception {
+        try {
+            UInteger.MAX_UINTEGER.add(uint(1));
+            fail();
+        } catch (NumberFormatException e) {}
+
+        try {
+            UInteger.MAX_UINTEGER.add(uint(UInteger.MAX_VALUE));
+            fail();
+        } catch (NumberFormatException e) {}
+    }
+
+    @Test
+    public void testAddIntValid() throws Exception {
+        assertEquals(uint(3), uint(1).add(2));
+    }
+
+    @Test
+    public void testAddIntInvalid() throws Exception {
+        try {
+            UInteger.MAX_UINTEGER.add(1);
+            fail();
+        } catch (NumberFormatException e) {}
+
+        try {
+            UInteger.MIN_UINTEGER.add(-1);
+            fail();
+        } catch (NumberFormatException e) {}
+    }
+
+    @Test
+    public void testSubtractUIntegerValid() throws Exception {
+        assertEquals(uint(1), uint(3).subtract(uint(2)));
+    }
+
+    @Test
+    public void testSubtractUIntegerInvalid() throws Exception {
+        try {
+            UInteger.MIN_UINTEGER.subtract(uint(1));
+            fail();
+        } catch (NumberFormatException e) {}
+    }
+
+    @Test
+    public void testSubtractIntValid() throws Exception {
+        assertEquals(uint(1), uint(3).subtract(2));
+    }
+
+    @Test
+    public void testSubtractIntInvalid() throws Exception {
+        try {
+            UInteger.MIN_UINTEGER.subtract(1);
+            fail();
+        } catch (NumberFormatException e) {}
+
+        try {
+            UInteger.MAX_UINTEGER.subtract(-1);
+            fail();
+        } catch (NumberFormatException e) {}
     }
 
 
