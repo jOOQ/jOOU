@@ -159,6 +159,11 @@ public class UByteTest {
             UByte.MAX_UBYTE.add(ubyte(1));
             fail();
         } catch (NumberFormatException e) {}
+
+        try {
+            UByte.MAX_UBYTE.add(ubyte(UByte.MAX_VALUE));
+            fail();
+        } catch (NumberFormatException e) {}
     }
 
     @Test
