@@ -41,6 +41,7 @@ import java.math.BigInteger;
  * The <code>unsigned long</code> type
  *
  * @author Lukas Eder
+ * @author Jens Nerche
  */
 public final class ULong extends UNumber implements Comparable<ULong> {
 

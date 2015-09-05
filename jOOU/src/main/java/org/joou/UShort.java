@@ -39,6 +39,7 @@ package org.joou;
  * The <code>unsigned short</code> type
  *
  * @author Lukas Eder
+ * @author Jens Nerche
  */
 public final class UShort extends UNumber implements Comparable<UShort> {
 

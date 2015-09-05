@@ -42,6 +42,7 @@ import java.io.ObjectStreamException;
  *
  * @author Lukas Eder
  * @author Ed Schaller
+ * @author Jens Nerche
  */
 public final class UInteger extends UNumber implements Comparable<UInteger> {
     private static final Class<UInteger> CLASS                 = UInteger.class;

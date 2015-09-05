@@ -43,6 +43,7 @@ import java.math.BigInteger;
  *
  * @author Lukas Eder
  * @author Ed Schaller
+ * @author Jens Nerche
  */
 public final class UByte extends UNumber implements Comparable<UByte> {
 
