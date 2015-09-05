@@ -35,19 +35,20 @@
  */
 package org.joou.test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import org.joou.UInteger;
-import org.junit.Test;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import static org.joou.Unsigned.uint;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import org.joou.UInteger;
+import org.junit.Test;
 
 public class UIntegerTest {
     private static final int CACHE_SIZE=256;
@@ -144,12 +145,12 @@ public class UIntegerTest {
     @Test
     public void testAddUIntegerInvalid() throws Exception {
         try {
-            UInteger.MAX_UINTEGER.add(uint(1));
+            UInteger.MAX.add(uint(1));
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            UInteger.MAX_UINTEGER.add(uint(UInteger.MAX_VALUE));
+            UInteger.MAX.add(uint(UInteger.MAX_VALUE));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -162,12 +163,12 @@ public class UIntegerTest {
     @Test
     public void testAddIntInvalid() throws Exception {
         try {
-            UInteger.MAX_UINTEGER.add(1);
+            UInteger.MAX.add(1);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            UInteger.MIN_UINTEGER.add(-1);
+            UInteger.MIN.add(-1);
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -180,7 +181,7 @@ public class UIntegerTest {
     @Test
     public void testSubtractUIntegerInvalid() throws Exception {
         try {
-            UInteger.MIN_UINTEGER.subtract(uint(1));
+            UInteger.MIN.subtract(uint(1));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -193,12 +194,12 @@ public class UIntegerTest {
     @Test
     public void testSubtractIntInvalid() throws Exception {
         try {
-            UInteger.MIN_UINTEGER.subtract(1);
+            UInteger.MIN.subtract(1);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            UInteger.MAX_UINTEGER.subtract(-1);
+            UInteger.MAX.subtract(-1);
             fail();
         } catch (NumberFormatException e) {}
     }

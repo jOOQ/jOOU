@@ -84,13 +84,13 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
      * A constant holding the minimum value an <code>unsigned int</code> can
      * have as UInteger, 0.
      */
-    public static final UInteger         MIN_UINTEGER          = valueOf(MIN_VALUE);
+    public static final UInteger         MIN                   = valueOf(MIN_VALUE);
 
     /**
      * A constant holding the maximum value an <code>unsigned int</code> can
      * have as UInteger, 2<sup>32</sup>-1.
      */
-    public static final UInteger         MAX_UINTEGER          = valueOf(MAX_VALUE);
+    public static final UInteger         MAX                   = valueOf(MAX_VALUE);
 
     /**
      * The value modelling the content of this <code>unsigned int</code>

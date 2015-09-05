@@ -64,13 +64,13 @@ public final class UShort extends UNumber implements Comparable<UShort> {
      * A constant holding the minimum value an <code>unsigned short</code> can
      * have as UShort, 0.
      */
-    public static final UShort MIN_USHORT = valueOf(MIN_VALUE);
+    public static final UShort MIN             = valueOf(MIN_VALUE);
 
     /**
      * A constant holding the maximum value an <code>unsigned short</code> can
      * have as UShort, 2<sup>16</sup>-1.
      */
-    public static final UShort MAX_USHORT = valueOf(MAX_VALUE);
+    public static final UShort MAX             = valueOf(MAX_VALUE);
 
     /**
      * The value modelling the content of this <code>unsigned short</code>

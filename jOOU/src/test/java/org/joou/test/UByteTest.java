@@ -35,18 +35,19 @@
  */
 package org.joou.test;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+import static org.joou.Unsigned.ubyte;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
 import org.joou.UByte;
 import org.junit.Test;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-import static org.joou.Unsigned.ubyte;
 
 public class UByteTest {
 
@@ -156,12 +157,12 @@ public class UByteTest {
     @Test
     public void testAddUByteInvalid() throws Exception {
         try {
-            UByte.MAX_UBYTE.add(ubyte(1));
+            UByte.MAX.add(ubyte(1));
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            UByte.MAX_UBYTE.add(ubyte(UByte.MAX_VALUE));
+            UByte.MAX.add(ubyte(UByte.MAX_VALUE));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -174,12 +175,12 @@ public class UByteTest {
     @Test
     public void testAddIntInvalid() throws Exception {
         try {
-            UByte.MAX_UBYTE.add(1);
+            UByte.MAX.add(1);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            UByte.MIN_UBYTE.add(-1);
+            UByte.MIN.add(-1);
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -192,7 +193,7 @@ public class UByteTest {
     @Test
     public void testSubtractUByteInvalid() throws Exception {
         try {
-            UByte.MIN_UBYTE.subtract(ubyte(1));
+            UByte.MIN.subtract(ubyte(1));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -205,12 +206,12 @@ public class UByteTest {
     @Test
     public void testSubtractIntInvalid() throws Exception {
         try {
-            UByte.MIN_UBYTE.subtract(1);
+            UByte.MIN.subtract(1);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            UByte.MAX_UBYTE.subtract(-1);
+            UByte.MAX.subtract(-1);
             fail();
         } catch (NumberFormatException e) {}
     }

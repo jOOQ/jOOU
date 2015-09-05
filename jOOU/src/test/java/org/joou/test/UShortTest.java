@@ -1,11 +1,11 @@
 package org.joou.test;
 
-import org.joou.UShort;
-import org.junit.Test;
-
 import static junit.framework.Assert.fail;
 import static org.joou.Unsigned.ushort;
 import static org.junit.Assert.assertEquals;
+
+import org.joou.UShort;
+import org.junit.Test;
 
 public class UShortTest {
 
@@ -17,12 +17,12 @@ public class UShortTest {
     @Test
     public void testAddUShortInvalid() throws Exception {
         try {
-            UShort.MAX_USHORT.add(ushort(1));
+            UShort.MAX.add(ushort(1));
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            UShort.MAX_USHORT.add(ushort(UShort.MAX_VALUE));
+            UShort.MAX.add(ushort(UShort.MAX_VALUE));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -35,12 +35,12 @@ public class UShortTest {
     @Test
     public void testAddIntInvalid() throws Exception {
         try {
-            UShort.MAX_USHORT.add(1);
+            UShort.MAX.add(1);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            UShort.MIN_USHORT.add(-1);
+            UShort.MIN.add(-1);
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -53,7 +53,7 @@ public class UShortTest {
     @Test
     public void testSubtractUShortInvalid() throws Exception {
         try {
-            UShort.MIN_USHORT.subtract(ushort(1));
+            UShort.MIN.subtract(ushort(1));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -66,12 +66,12 @@ public class UShortTest {
     @Test
     public void testSubtractIntInvalid() throws Exception {
         try {
-            UShort.MIN_USHORT.subtract(1);
+            UShort.MIN.subtract(1);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            UShort.MAX_USHORT.subtract(-1);
+            UShort.MAX.subtract(-1);
             fail();
         } catch (NumberFormatException e) {}
     }

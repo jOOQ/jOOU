@@ -1,11 +1,11 @@
 package org.joou.test;
 
-import org.joou.ULong;
-import org.junit.Test;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import static org.joou.Unsigned.ulong;
+
+import org.joou.ULong;
+import org.junit.Test;
 
 public class ULongTest {
     @Test
@@ -16,12 +16,12 @@ public class ULongTest {
     @Test
     public void testAddULongInvalid() throws Exception {
         try {
-            ULong.MAX_ULONG.add(ulong(1));
+            ULong.MAX.add(ulong(1));
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            ULong.MAX_ULONG.add(ulong(ULong.MAX_VALUE));
+            ULong.MAX.add(ulong(ULong.MAX_VALUE));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -34,12 +34,12 @@ public class ULongTest {
     @Test
     public void testAddIntInvalid() throws Exception {
         try {
-            ULong.MAX_ULONG.add(1);
+            ULong.MAX.add(1);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            ULong.MIN_ULONG.add(-1);
+            ULong.MIN.add(-1);
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -52,7 +52,7 @@ public class ULongTest {
     @Test
     public void testSubtractULongInvalid() throws Exception {
         try {
-            ULong.MIN_ULONG.subtract(ulong(1));
+            ULong.MIN.subtract(ulong(1));
             fail();
         } catch (NumberFormatException e) {}
     }
@@ -65,17 +65,17 @@ public class ULongTest {
     @Test
     public void testSubtractIntInvalid() throws Exception {
         try {
-            ULong.MIN_ULONG.subtract(1);
+            ULong.MIN.subtract(1);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            ULong.MIN_ULONG.subtract(ULong.MAX_ULONG);
+            ULong.MIN.subtract(ULong.MAX);
             fail();
         } catch (NumberFormatException e) {}
 
         try {
-            ULong.MAX_ULONG.subtract(-1);
+            ULong.MAX.subtract(-1);
             fail();
         } catch (NumberFormatException e) {}
     }
