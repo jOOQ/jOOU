@@ -69,6 +69,18 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     public static final short    MAX_VALUE        = 0xff;
 
     /**
+     * A constant holding the minimum value an <code>unsigned byte</code> can
+     * have as UByte, 0.
+     */
+    public static final UByte    MIN_UBYTE        = valueOf(0x00);
+
+    /**
+     * A constant holding the maximum value an <code>unsigned byte</code> can
+     * have as UByte, 2<sup>8</sup>-1.
+     */
+    public static final UByte    MAX_UBYTE        = valueOf(0xff);
+
+    /**
      * The value modelling the content of this <code>unsigned byte</code>
      */
     private final short          value;
@@ -293,5 +305,21 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     @Override
     public BigInteger toBigInteger() {
         return BigInteger.valueOf(value);
+    }
+
+    public UByte add(UByte val) throws NumberFormatException {
+        return valueOf(value + val.value);
+    }
+
+    public UByte add(int val) throws NumberFormatException {
+        return valueOf(value + val);
+    }
+
+    public UByte subtract(final UByte val) {
+        return valueOf(value - val.value);
+    }
+
+    public UByte subtract(final int val) {
+        return valueOf(value - val);
     }
 }

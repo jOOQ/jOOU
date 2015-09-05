@@ -80,6 +80,18 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
     public static final long             MAX_VALUE             = 0xffffffffL;
 
     /**
+     * A constant holding the minimum value an <code>unsigned int</code> can
+     * have as UInteger, 0.
+     */
+    public static final UInteger         MIN_UINTEGER          = valueOf(MIN_VALUE);
+
+    /**
+     * A constant holding the maximum value an <code>unsigned int</code> can
+     * have as UInteger, 2<sup>32</sup>-1.
+     */
+    public static final UInteger         MAX_UINTEGER          = valueOf(MAX_VALUE);
+
+    /**
      * The value modelling the content of this <code>unsigned int</code>
      */
     private final long                   value;
@@ -317,5 +329,21 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
     @Override
     public int compareTo(UInteger o) {
         return (value < o.value ? -1 : (value == o.value ? 0 : 1));
+    }
+
+    public UInteger add(final UInteger val) {
+        return valueOf(value + val.value);
+    }
+
+    public UInteger add(final int val) {
+        return valueOf(value + val);
+    }
+
+    public UInteger subtract(final UInteger val) {
+        return valueOf(value - val.value);
+    }
+
+    public UInteger subtract(final int val) {
+        return valueOf(value - val);
     }
 }

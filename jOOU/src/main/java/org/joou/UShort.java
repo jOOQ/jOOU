@@ -60,6 +60,18 @@ public final class UShort extends UNumber implements Comparable<UShort> {
     public static final int   MAX_VALUE        = 0xffff;
 
     /**
+     * A constant holding the minimum value an <code>unsigned short</code> can
+     * have as UShort, 0.
+     */
+    public static final UShort MIN_USHORT = valueOf(MIN_VALUE);
+
+    /**
+     * A constant holding the maximum value an <code>unsigned short</code> can
+     * have as UShort, 2<sup>16</sup>-1.
+     */
+    public static final UShort MAX_USHORT = valueOf(MAX_VALUE);
+
+    /**
      * The value modelling the content of this <code>unsigned short</code>
      */
     private final int         value;
@@ -173,4 +185,21 @@ public final class UShort extends UNumber implements Comparable<UShort> {
     public int compareTo(UShort o) {
         return (value < o.value ? -1 : (value == o.value ? 0 : 1));
     }
+
+    public UShort add(UShort val) throws NumberFormatException {
+        return valueOf(value + val.value);
+    }
+
+    public UShort add(int val) throws NumberFormatException {
+        return valueOf(value + val);
+    }
+
+    public UShort subtract(final UShort val) {
+        return valueOf(value - val.value);
+    }
+
+    public UShort subtract(final int val) {
+        return valueOf(value - val);
+    }
+
 }

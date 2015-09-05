@@ -56,6 +56,11 @@ public final class ULong extends UNumber implements Comparable<ULong> {
     public static final BigInteger MIN_VALUE        = BigInteger.ZERO;
 
     /**
+     * A constant holding the minimum value an <code>unsigned long</code> can
+     * have as ULong, 0.
+     */
+    public static final ULong      MIN_ULONG        = valueOf(MIN_VALUE.longValue());
+    /**
      * A constant holding the maximum value an <code>unsigned long</code> can
      * have, 2<sup>64</sup>-1.
      */
@@ -66,6 +71,12 @@ public final class ULong extends UNumber implements Comparable<ULong> {
      * have, 2<sup>63</sup>.
      */
     public static final BigInteger MAX_VALUE_LONG   = new BigInteger("9223372036854775808");
+
+    /**
+     * A constant holding the maximum value + 1 an <code>signed long</code> can
+     * have as ULong, 2<sup>63</sup>.
+     */
+    public static final ULong      MAX_ULONG        = valueOf(MAX_VALUE);
 
     /**
      * The value modelling the content of this <code>unsigned long</code>
@@ -186,4 +197,21 @@ public final class ULong extends UNumber implements Comparable<ULong> {
     public int compareTo(ULong o) {
         return value.compareTo(o.value);
     }
+
+    public ULong add(ULong val) throws NumberFormatException {
+        return valueOf(value.add(val.value));
+    }
+
+    public ULong add(int val) throws NumberFormatException {
+        return valueOf(value.add(BigInteger.valueOf(val)));
+    }
+
+    public ULong subtract(final ULong val) {
+        return valueOf(value.subtract(val.value));
+    }
+
+    public ULong subtract(final int val) {
+        return valueOf(value.subtract(BigInteger.valueOf(val)));
+    }
+
 }
