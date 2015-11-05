@@ -11,7 +11,7 @@
     <groupId>org.jooq</groupId>
     <artifactId>joou</artifactId>
     <version>0.9.3-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
 
     <name>jOOU</name>
     <description>jOOU stands for Java Object Oriented Unsigned Types. It is a simple wrapper for UByte, UShort, UInteger, ULong types</description>
@@ -68,6 +68,13 @@
                 <configuration>
                     <downloadSources>true</downloadSources>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.4.0</version>
+                <extensions>true</extensions>
             </plugin>
         </plugins>
     </build>
