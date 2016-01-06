@@ -138,7 +138,7 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
         if (propParsed < 0)
             return 0;
         if (propParsed > Integer.MAX_VALUE) {
-            // FIXME: should we log this somewhere
+            // FIXME: should we log this somewhere?
             return Integer.MAX_VALUE;
         }
         return (int) propParsed;
@@ -167,7 +167,7 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
      * constructor without unnecessary value checks.
      *
      * @param value The value to wrap
-     * @param unused Unused paramater to distinguish between this and the
+     * @param unused Unused parameter to distinguish between this and the
      *            deprecated public constructor.
      */
     private UInteger(long value, boolean unused) {
