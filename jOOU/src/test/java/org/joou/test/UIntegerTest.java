@@ -35,83 +35,68 @@
  */
 package org.joou.test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-import static org.joou.Unsigned.uint;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
+import java.io.*;
 import org.joou.UInteger;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.joou.Unsigned.uint;
+import static org.junit.Assert.assertThat;
+
 public class UIntegerTest {
-    private static final int CACHE_SIZE=256;
-    private static final int NEAR_MISS_OFFSET=4;
+    private static final int CACHE_SIZE = 256;
+    private static final int NEAR_MISS_OFFSET = 4;
 
     @Test
     public void testValueOfLong() {
-    	for(long l=01; l<=UInteger.MAX_VALUE; l<<=1)
-            assertEquals(l , uint(l).longValue());
+        for (long i = 1; i <= UInteger.MAX_VALUE; i <<= 1)
+            assertThat(uint(i).longValue(), equalTo(i));
     }
 
     @Test
     public void testValueOfLongCachingShift() {
-    	for(long l=01; l<CACHE_SIZE; l<<=1)
-	{
-            UInteger a = uint(l);
-            UInteger b = uint(l);
-            assertTrue(a == b);
+        for (long i = 1; i < CACHE_SIZE; i <<= 1) {
+            UInteger a = uint(i);
+            UInteger b = uint(i);
+            assertThat(a, is(sameInstance(b)));
         }
     }
 
     @Test
     public void testValueOfLongCachingNear() {
-    	for(long l=CACHE_SIZE-NEAR_MISS_OFFSET; l<CACHE_SIZE; l++)
-	{
-            UInteger a = uint(l);
-            UInteger b = uint(l);
-            assertTrue(a == b);
+        for (long i = CACHE_SIZE - NEAR_MISS_OFFSET; i < CACHE_SIZE; i++) {
+            UInteger a = uint(i);
+            UInteger b = uint(i);
+            assertThat(a, is(sameInstance(b)));
         }
     }
 
     @Test
     public void testValueOfLongNoCachingShift() {
-    	for(long l=CACHE_SIZE; l<=CACHE_SIZE; l<<=1)
-	{
-            UInteger a = uint(l);
-            UInteger b = uint(l);
-            assertFalse(a == b);
+        for (long i = CACHE_SIZE; i <= CACHE_SIZE; i <<= 1) {
+            UInteger a = uint(i);
+            UInteger b = uint(i);
+            assertThat(a, not(sameInstance(b)));
         }
     }
 
     @Test
     public void testValueOfLongNoCachingNear() {
-    	for(long l=CACHE_SIZE; l<=CACHE_SIZE+NEAR_MISS_OFFSET; l++)
-	{
-            UInteger a = uint(l);
-            UInteger b = uint(l);
-            assertFalse(a == b);
+        for (long i = CACHE_SIZE; i <= CACHE_SIZE + NEAR_MISS_OFFSET; i++) {
+            UInteger a = uint(i);
+            UInteger b = uint(i);
+            assertThat(a, not(sameInstance(b)));
         }
     }
 
-    @Test
-    public void testValueOfLongInvalid() {
-        try {
-            uint((UInteger.MIN_VALUE) - 1);
-            fail();
-        }
-        catch (NumberFormatException e) {}
-        try {
-            uint((UInteger.MAX_VALUE) + 1);
-            fail();
-        }
-        catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testValueOfLongInvalidCase1() {
+        uint((UInteger.MIN_VALUE) - 1);
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testValueOfLongInvalidCase2() {
+        uint((UInteger.MAX_VALUE) + 1);
     }
 
     @Test
@@ -122,87 +107,73 @@ public class UIntegerTest {
         ObjectInputStream ois;
         UInteger expected = uint(42);
         UInteger input = uint(42);
-        UInteger actual;
-        Object o;
+        Object actual;
 
         oos.writeObject(input);
         oos.close();
         bais = new ByteArrayInputStream(baos.toByteArray());
         ois = new ObjectInputStream(bais);
-        o = ois.readObject();
-        if (!(o instanceof UInteger))
-            fail();
-        actual = (UInteger) o;
-        assertEquals(expected, actual); // same value
-        assertTrue(expected == actual); // identical objects
+        actual = ois.readObject();
+
+        assertThat(actual, allOf(
+            instanceOf(UInteger.class),
+            equalTo(expected),
+            sameInstance(expected)
+        ));
     }
 
     @Test
-    public void testAddUIntegerValid() throws Exception {
-        assertEquals(uint(3), uint(1).add(uint(2)));
+    public void testAddUIntegerValid() {
+        assertThat(uint(1).add(uint(2)), is(uint(3)));
     }
 
-    @Test
-    public void testAddUIntegerInvalid() throws Exception {
-        try {
-            UInteger.MAX.add(uint(1));
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testAddUIntegerInvalidCase1() {
+        UInteger.MAX.add(uint(1));
+    }
 
-        try {
-            UInteger.MAX.add(uint(UInteger.MAX_VALUE));
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testAddUIntegerInvalidCase2() {
+        UInteger.MAX.add(uint(UInteger.MAX_VALUE));
     }
 
     @Test
     public void testAddIntValid() throws Exception {
-        assertEquals(uint(3), uint(1).add(2));
+        assertThat(uint(1).add(2), is(uint(3)));
     }
 
-    @Test
-    public void testAddIntInvalid() throws Exception {
-        try {
-            UInteger.MAX.add(1);
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testAddIntInvalidCase1() {
+        UInteger.MAX.add(1);
+    }
 
-        try {
-            UInteger.MIN.add(-1);
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testAddIntInvalidCase2() {
+        UInteger.MIN.add(-1);
     }
 
     @Test
     public void testSubtractUIntegerValid() throws Exception {
-        assertEquals(uint(1), uint(3).subtract(uint(2)));
+        assertThat(uint(3).subtract(uint(2)), is(uint(1)));
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testSubtractUIntegerInvalid() {
+        UInteger.MIN.subtract(uint(1));
     }
 
     @Test
-    public void testSubtractUIntegerInvalid() throws Exception {
-        try {
-            UInteger.MIN.subtract(uint(1));
-            fail();
-        } catch (NumberFormatException e) {}
+    public void testSubtractIntValid() {
+        assertThat(uint(3).subtract(2), is(uint(1)));
     }
 
-    @Test
-    public void testSubtractIntValid() throws Exception {
-        assertEquals(uint(1), uint(3).subtract(2));
+    @Test(expected = NumberFormatException.class)
+    public void testSubtractIntInvalidCase1() {
+        UInteger.MIN.subtract(1);
     }
 
-    @Test
-    public void testSubtractIntInvalid() throws Exception {
-        try {
-            UInteger.MIN.subtract(1);
-            fail();
-        } catch (NumberFormatException e) {}
-
-        try {
-            UInteger.MAX.subtract(-1);
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testSubtractIntInvalidCase2() {
+        UInteger.MAX.subtract(-1);
     }
-
-
 }
