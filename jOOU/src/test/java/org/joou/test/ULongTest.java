@@ -1,83 +1,71 @@
 package org.joou.test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
-import static org.joou.Unsigned.ulong;
-
 import org.joou.ULong;
 import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.joou.Unsigned.ulong;
+import static org.junit.Assert.assertThat;
 
 public class ULongTest {
     @Test
     public void testAddULongValid() throws Exception {
-        assertEquals(ulong(3), ulong(1).add(ulong(2)));
+        assertThat(ulong(1).add(ulong(2)), equalTo(ulong(3)));
     }
 
-    @Test
-    public void testAddULongInvalid() throws Exception {
-        try {
-            ULong.MAX.add(ulong(1));
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testAddULongInvalidCase1() {
+        ULong.MAX.add(ulong(1));
+    }
 
-        try {
-            ULong.MAX.add(ulong(ULong.MAX_VALUE));
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testAddULongInvalidCase2() {
+        ULong.MIN.add(ulong(ULong.MAX_VALUE));
     }
 
     @Test
     public void testAddIntValid() throws Exception {
-        assertEquals(ulong(3), ulong(1).add(2));
+        assertThat(ulong(1).add(2), is(ulong(3)));
     }
 
-    @Test
-    public void testAddIntInvalid() throws Exception {
-        try {
-            ULong.MAX.add(1);
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testAddIntInvalidCase1() {
+        ULong.MAX.add(1);
+    }
 
-        try {
-            ULong.MIN.add(-1);
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testAddIntInvalidCase2() {
+        ULong.MIN.add(-1);
     }
 
     @Test
     public void testSubtractULongValid() throws Exception {
-        assertEquals(ulong(1), ulong(3).subtract(ulong(2)));
+        assertThat(ulong(3).subtract(ulong(2)), is(ulong(1)));
     }
 
-    @Test
+    @Test(expected = NumberFormatException.class)
     public void testSubtractULongInvalid() throws Exception {
-        try {
-            ULong.MIN.subtract(ulong(1));
-            fail();
-        } catch (NumberFormatException e) {}
+        ULong.MIN.subtract(ulong(1));
     }
 
     @Test
     public void testSubtractIntValid() throws Exception {
-        assertEquals(ulong(1), ulong(3).subtract(2));
+        assertThat(ulong(3).subtract(2), is(ulong(1)));
     }
 
-    @Test
-    public void testSubtractIntInvalid() throws Exception {
-        try {
-            ULong.MIN.subtract(1);
-            fail();
-        } catch (NumberFormatException e) {}
-
-        try {
-            ULong.MIN.subtract(ULong.MAX);
-            fail();
-        } catch (NumberFormatException e) {}
-
-        try {
-            ULong.MAX.subtract(-1);
-            fail();
-        } catch (NumberFormatException e) {}
+    @Test(expected = NumberFormatException.class)
+    public void testSubtractIntInvalidCase1() throws Exception {
+        ULong.MIN.subtract(1);
     }
 
+    @Test(expected = NumberFormatException.class)
+    public void testSubtractIntInvalidCase2() throws Exception {
+        ULong.MIN.subtract(ULong.MAX);
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testSubtractIntInvalidCase3() throws Exception {
+        ULong.MAX.subtract(-1);
+    }
 }
