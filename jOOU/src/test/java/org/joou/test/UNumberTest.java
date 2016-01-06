@@ -35,32 +35,28 @@
  */
 package org.joou.test;
 
-import static java.math.BigInteger.ONE;
-import static java.util.Arrays.asList;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static org.joou.ULong.MAX_VALUE_LONG;
-import static org.joou.Unsigned.ubyte;
-import static org.joou.Unsigned.uint;
-import static org.joou.Unsigned.ulong;
-import static org.joou.Unsigned.ushort;
-
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
-
 import org.joou.UByte;
 import org.joou.UInteger;
 import org.joou.ULong;
-import org.joou.UNumber;
 import org.joou.UShort;
 import org.junit.Test;
+
+import static java.math.BigInteger.ONE;
+import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.joou.ULong.MAX_VALUE_LONG;
+import static org.joou.Unsigned.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Lukas Eder
  */
 public class UNumberTest {
+    private static final float FLOAT_EPSILON = 2e-24f;
+    private static final double DOUBLE_EPSILON = 2e-53;
 
     @Test
     public void testRange0() {
@@ -180,31 +176,32 @@ public class UNumberTest {
     public void testObjectMethods() {
         assertEquals(ubyte((byte) 0), ubyte((byte) 0));
         assertEquals(ubyte((byte) 1), ubyte((byte) 1));
-        assertFalse(ubyte((byte) 0).equals(ubyte((byte) 1)));
         assertEquals("0", ubyte((byte) 0).toString());
         assertEquals("1", ubyte((byte) 1).toString());
         assertEquals(Short.toString(UByte.MAX_VALUE), ubyte((byte) -1).toString());
 
         assertEquals(ushort((short) 0), ushort((short) 0));
         assertEquals(ushort((short) 1), ushort((short) 1));
-        assertFalse(ushort((short) 0).equals(ushort((short) 1)));
         assertEquals("0", ushort((short) 0).toString());
         assertEquals("1", ushort((short) 1).toString());
         assertEquals(Integer.toString(UShort.MAX_VALUE), ushort((short) -1).toString());
 
         assertEquals(uint(0), uint(0));
         assertEquals(uint(1), uint(1));
-        assertFalse(uint(0).equals(uint(1)));
         assertEquals("0", uint(0).toString());
         assertEquals("1", uint(1).toString());
         assertEquals(Long.toString(UInteger.MAX_VALUE), uint(-1).toString());
 
         assertEquals(ulong(0), ulong(0));
         assertEquals(ulong(1), ulong(1));
-        assertFalse(ulong(0).equals(ulong(1)));
         assertEquals("0", ulong(0).toString());
         assertEquals("1", ulong(1).toString());
         assertEquals(ULong.MAX_VALUE.toString(), ulong(-1).toString());
+
+        assertNotEquals(ubyte(0), ubyte(1));
+        assertNotEquals(ushort(0), ushort(1));
+        assertNotEquals(uint(0), uint(1));
+        assertNotEquals(ulong(0), ulong(1));
     }
 
     @Test
@@ -232,14 +229,12 @@ public class UNumberTest {
 
     // Test utility methods
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void testComparable(List<String> strings, UNumber... numbers) {
-        List<UNumber> list = new ArrayList<UNumber>(asList(numbers));
-        Collections.sort((List) list);
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private <T extends Comparable<T>> void testComparable(List<String> strings, T... numbers) {
+        Arrays.sort(numbers);
 
-        for (int i = 0; i < numbers.length; i++) {
-            assertEquals(strings.get(i), list.get(i).toString());
-        }
+        for (int i = 0; i < numbers.length; i++)
+            assertThat(numbers[i].toString(), equalTo(strings.get(i)));
     }
 
     private void testCastable(short value, UByte u) {
@@ -247,9 +242,9 @@ public class UNumberTest {
         assertEquals(value, u.shortValue());
         assertEquals(value, u.intValue());
         assertEquals(value, u.longValue());
-        assertEquals((double) value, u.doubleValue());
-        assertEquals((float) value, u.floatValue());
-        assertEquals(new BigInteger("" + value), u.toBigInteger());
+        assertEquals((double) value, u.doubleValue(), DOUBLE_EPSILON);
+        assertEquals((float) value, u.floatValue(), FLOAT_EPSILON);
+        assertEquals(new BigInteger(Short.toString(value)), u.toBigInteger());
     }
 
     private void testCastable(int value, UShort u) {
@@ -257,9 +252,9 @@ public class UNumberTest {
         assertEquals((short) value, u.shortValue());
         assertEquals(value, u.intValue());
         assertEquals(value, u.longValue());
-        assertEquals((double) value, u.doubleValue());
-        assertEquals((float) value, u.floatValue());
-        assertEquals(new BigInteger("" + value), u.toBigInteger());
+        assertEquals((double) value, u.doubleValue(), DOUBLE_EPSILON);
+        assertEquals((float) value, u.floatValue(), FLOAT_EPSILON);
+        assertEquals(new BigInteger(Integer.toString(value)), u.toBigInteger());
     }
 
     private void testCastable(long value, UInteger u) {
@@ -267,9 +262,9 @@ public class UNumberTest {
         assertEquals((short) value, u.shortValue());
         assertEquals((int) value, u.intValue());
         assertEquals(value, u.longValue());
-        assertEquals((double) value, u.doubleValue());
-        assertEquals((float) value, u.floatValue());
-        assertEquals(new BigInteger("" + value), u.toBigInteger());
+        assertEquals((double) value, u.doubleValue(), DOUBLE_EPSILON);
+        assertEquals((float) value, u.floatValue(), FLOAT_EPSILON);
+        assertEquals(new BigInteger(Long.toString(value)), u.toBigInteger());
     }
 
     private void testCastable(BigInteger value, ULong u) {
@@ -277,8 +272,8 @@ public class UNumberTest {
         assertEquals(value.shortValue(), u.shortValue());
         assertEquals(value.intValue(), u.intValue());
         assertEquals(value.longValue(), u.longValue());
-        assertEquals(value.doubleValue(), u.doubleValue());
-        assertEquals(value.floatValue(), u.floatValue());
-        assertEquals(new BigInteger("" + value), u.toBigInteger());
+        assertEquals(value.doubleValue(), u.doubleValue(), DOUBLE_EPSILON);
+        assertEquals(value.floatValue(), u.floatValue(), FLOAT_EPSILON);
+        assertEquals(new BigInteger(value.toString()), u.toBigInteger());
     }
 }
