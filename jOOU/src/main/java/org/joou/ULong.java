@@ -181,7 +181,7 @@ public final class ULong extends UNumber implements Comparable<ULong> {
             return ((float) (value & Long.MAX_VALUE)) + Long.MAX_VALUE;
         }
         else {
-            return (float) value;
+            return value;
         }
     }
 
@@ -191,7 +191,7 @@ public final class ULong extends UNumber implements Comparable<ULong> {
             return ((double) (value & Long.MAX_VALUE)) + Long.MAX_VALUE;
         }
         else {
-            return (double) value;
+            return value;
         }
     }
 
@@ -236,6 +236,10 @@ public final class ULong extends UNumber implements Comparable<ULong> {
     }
 
     public ULong add(int val) throws NumberFormatException {
+        return add((long) val);
+    }
+
+    public ULong add(long val) throws NumberFormatException {
         if (val < 0) {
             return subtract(Math.abs(val));
         }
@@ -258,6 +262,10 @@ public final class ULong extends UNumber implements Comparable<ULong> {
     }
 
     public ULong subtract(final int val) {
+        return subtract((long) val);
+    }
+
+    public ULong subtract(final long val) {
         if (val < 0) {
             return add(-val);
         }
@@ -270,5 +278,4 @@ public final class ULong extends UNumber implements Comparable<ULong> {
         }
         return valueOf(result);
     }
-
 }
