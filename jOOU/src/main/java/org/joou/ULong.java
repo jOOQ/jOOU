@@ -22,6 +22,7 @@ import java.math.BigInteger;
  *
  * @author Lukas Eder
  * @author Jens Nerche
+ * @author Ivan Sokolov
  */
 public final class ULong extends UNumber implements Comparable<ULong> {
 
@@ -62,7 +63,7 @@ public final class ULong extends UNumber implements Comparable<ULong> {
     /**
      * The value modelling the content of this <code>unsigned long</code>
      */
-    private final BigInteger       value;
+    private final long             value;
 
     /**
      * Create an <code>unsigned long</code>
@@ -93,6 +94,12 @@ public final class ULong extends UNumber implements Comparable<ULong> {
         return new ULong(value);
     }
 
+    public static int compare(long x, long y) {
+        x += Long.MIN_VALUE;
+        y += Long.MIN_VALUE;
+        return (x < y) ? -1 : ((x == y) ? 0 : 1);
+    }
+
     /**
      * Create an <code>unsigned long</code>
      *
@@ -100,8 +107,12 @@ public final class ULong extends UNumber implements Comparable<ULong> {
      *             of an <code>unsigned long</code>
      */
     private ULong(BigInteger value) throws NumberFormatException {
-        this.value = value;
-        rangeCheck();
+        if (value.compareTo(MIN_VALUE) < 0 || value.compareTo(MAX_VALUE) > 0) {
+            throw new NumberFormatException();
+        }
+        else {
+            this.value = value.longValue();
+        }
     }
 
     /**
@@ -110,12 +121,7 @@ public final class ULong extends UNumber implements Comparable<ULong> {
      * <code>(uint) 18446744073709551615</code>
      */
     private ULong(long value) {
-        if (value >= 0) {
-            this.value = BigInteger.valueOf(value);
-        }
-        else {
-            this.value = BigInteger.valueOf(value & Long.MAX_VALUE).add(MAX_VALUE_LONG);
-        }
+        this.value = value;
     }
 
     /**
@@ -125,45 +131,79 @@ public final class ULong extends UNumber implements Comparable<ULong> {
      *             parsable <code>unsigned long</code>.
      */
     private ULong(String value) throws NumberFormatException {
-        this.value = new BigInteger(value);
-        rangeCheck();
+        if (value == null) {
+            throw new NumberFormatException("null");
+        }
+
+        int length = value.length();
+
+        if (length == 0) {
+            throw new NumberFormatException("Empty input string");
+        }
+
+        if (value.charAt(0) == '-') {
+            throw new NumberFormatException(
+                String.format("Illegal leading minus sign on unsigned string %s", value));
+        }
+
+        if (length <= 18) {
+            this.value = Long.parseLong(value, 10);
+            return;
     }
 
-    private void rangeCheck() throws NumberFormatException {
-        if (value.compareTo(MIN_VALUE) < 0 || value.compareTo(MAX_VALUE) > 0) {
-            throw new NumberFormatException("Value is out of range : " + value);
+        final long first = Long.parseLong(value.substring(0, length - 1), 10);
+        final int second = Character.digit(value.charAt(length - 1), 10);
+        if (second < 0) {
+            throw new NumberFormatException("Bad digit at end of " + value);
         }
+        long result = first * 10 + second;
+        if (compare(result, first) < 0) {
+            throw new NumberFormatException(
+                String.format("String value %s exceeds range of unsigned long", value));
+        }
+
+        this.value = result;
     }
 
     @Override
     public int intValue() {
-        return value.intValue();
+        return (int) value;
     }
 
     @Override
     public long longValue() {
-        return value.longValue();
+        return value;
     }
 
     @Override
     public float floatValue() {
-        return value.floatValue();
+        if (value < 0) {
+            return ((float) (value & Long.MAX_VALUE)) + Long.MAX_VALUE;
+        }
+        else {
+            return (float) value;
+        }
     }
 
     @Override
     public double doubleValue() {
-        return value.doubleValue();
+        if (value < 0){
+            return ((double) (value & Long.MAX_VALUE)) + Long.MAX_VALUE;
+        }
+        else {
+            return (double) value;
+        }
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Long.valueOf(value).hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ULong) {
-            return value.equals(((ULong) obj).value);
+            return value == ((ULong) obj).value;
         }
 
         return false;
@@ -171,28 +211,64 @@ public final class ULong extends UNumber implements Comparable<ULong> {
 
     @Override
     public String toString() {
-        return value.toString();
+        if (value >= 0) {
+            return Long.toString(value);
+        }
+        else {
+            return BigInteger.valueOf(value & Long.MAX_VALUE).add(MAX_VALUE_LONG).toString();
+        }
     }
 
     @Override
     public int compareTo(ULong o) {
-        return value.compareTo(o.value);
+        return compare(value, o.value);
     }
 
     public ULong add(ULong val) throws NumberFormatException {
-        return valueOf(value.add(val.value));
+        if (value < 0 && val.value < 0) {
+            throw new NumberFormatException();
+        }
+        final long result = value + val.value;
+        if ((value < 0 || val.value < 0) && result >= 0) {
+            throw new NumberFormatException();
+        }
+        return valueOf(result);
     }
 
     public ULong add(int val) throws NumberFormatException {
-        return valueOf(value.add(BigInteger.valueOf(val)));
+        if (val < 0) {
+            return subtract(Math.abs(val));
+        }
+        final long result = value + val;
+        if (value < 0 && result >= 0) {
+            throw new NumberFormatException();
+        }
+        return valueOf(result);
     }
 
     public ULong subtract(final ULong val) {
-        return valueOf(value.subtract(val.value));
+        if (this.compareTo(val) < 0) {
+            throw new NumberFormatException();
+        }
+        final long result = value - val.value;
+        if (value < 0 && result >= 0) {
+            throw new NumberFormatException();
+        }
+        return valueOf(result);
     }
 
     public ULong subtract(final int val) {
-        return valueOf(value.subtract(BigInteger.valueOf(val)));
+        if (val < 0) {
+            return add(-val);
+        }
+        if (compare(value, val) < 0) {
+            throw new NumberFormatException();
+        }
+        final long result = value - val;
+        if (value < 0 && result >= 0) {
+            throw new NumberFormatException();
+        }
+        return valueOf(result);
     }
 
 }
