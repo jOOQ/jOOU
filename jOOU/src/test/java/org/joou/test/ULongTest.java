@@ -95,4 +95,15 @@ public class ULongTest {
         } catch (NumberFormatException e) {}
     }
 
+    @Test
+    public void testMaxValue() throws Exception {
+        ULong ulongmax = ULong.valueOf(ULong.MAX_VALUE);
+        ULong longmax = ULong.valueOf(Long.MAX_VALUE);
+
+        assertEquals(ULong.MAX_VALUE, ulongmax.toBigInteger());
+        assertEquals(ULong.MAX_VALUE.toString(), ulongmax.toString());
+
+        assertEquals(ULong.MAX_VALUE, longmax.add(longmax).add(1).toBigInteger());
+        assertEquals(ULong.MAX_VALUE.toString(), longmax.add(longmax).add(1).toString());
+    }
 }
