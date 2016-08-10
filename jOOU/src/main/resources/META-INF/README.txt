@@ -1,2 +1,2 @@
 Thanks for downloading jOOU.
-Please visit http://code.google.com/p/joou/ for more information.
+Please visit http://www.jooq.org/products for more information.
