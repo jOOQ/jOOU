@@ -14,7 +14,7 @@
     <packaging>bundle</packaging>
 
     <name>jOOU</name>
-    <description>jOOU stands for Java Object Oriented Unsigned Types. It is a simple wrapper for UByte, UShort, UInteger, ULong types</description>
+    <description>jOOU is a recursive acronym that stands for jOOU Object Oriented Unsigned Types. It is a simple wrapper for UByte, UShort, UInteger, ULong types</description>
     <url>https://github.com/jOOQ/jOOU</url>
 
     <licenses>
