@@ -15,6 +15,8 @@
  */
 package org.joou;
 
+import java.math.BigInteger;
+
 /**
  * The <code>unsigned short</code> type
  *
@@ -141,6 +143,11 @@ public final class UShort extends UNumber implements Comparable<UShort> {
     @Override
     public double doubleValue() {
         return value;
+    }
+
+    @Override
+    public BigInteger toBigInteger() {
+        return BigInteger.valueOf(value);
     }
 
     @Override
