@@ -26,6 +26,7 @@ import java.math.BigInteger;
  * @author Jens Nerche
  */
 public final class UInteger extends UNumber implements Comparable<UInteger> {
+
     private static final Class<UInteger> CLASS                 = UInteger.class;
     private static final String          CLASS_NAME            = CLASS.getName();
 
@@ -102,11 +103,12 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
         }
         if (prop == null)
             return DEFAULT_PRECACHE_SIZE;
-        if (prop.length() <= 0) {
-            // empty value
-            // FIXME: should we log this somewhere?
+
+        // empty value
+        // FIXME: should we log this somewhere?
+        if (prop.length() <= 0)
             return DEFAULT_PRECACHE_SIZE;
-        }
+
         try {
             propParsed = Long.parseLong(prop);
         }
@@ -115,13 +117,15 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
             // FIXME: should we log this somewhere?
             return DEFAULT_PRECACHE_SIZE;
         }
+
         // treat negative value as no cache...
         if (propParsed < 0)
             return 0;
-        if (propParsed > Integer.MAX_VALUE) {
-            // FIXME: should we log this somewhere?
+
+        // FIXME: should we log this somewhere?
+        if (propParsed > Integer.MAX_VALUE)
             return Integer.MAX_VALUE;
-        }
+
         return (int) propParsed;
     }
 
@@ -136,9 +140,11 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
 
         if (precacheSize <= 0)
             return null;
+
         ret = new UInteger[precacheSize];
         for (int i = 0; i < precacheSize; i++)
             ret[i] = new UInteger(i);
+
         return ret;
     }
 
@@ -164,6 +170,7 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
     private static UInteger getCached(long value) {
         if (VALUES != null && value < VALUES.length)
             return VALUES[(int) value];
+
         return null;
     }
 
@@ -175,6 +182,7 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
 
         if ((cached = getCached(value)) != null)
             return cached;
+
         return new UInteger(value, true);
     }
 
@@ -244,9 +252,9 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
      * @throws NumberFormatException if value is out of range
      */
     private static long rangeCheck(long value) throws NumberFormatException {
-        if (value < MIN_VALUE || value > MAX_VALUE) {
+        if (value < MIN_VALUE || value > MAX_VALUE)
             throw new NumberFormatException("Value is out of range : " + value);
-        }
+
         return value;
     }
 
@@ -264,6 +272,7 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
         rangeCheck(value);
         if ((cached = getCached(value)) != null)
             return cached;
+
         return this;
     }
 
@@ -301,9 +310,8 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj instanceof UInteger) {
+        if (obj instanceof UInteger)
             return value == ((UInteger) obj).value;
-        }
 
         return false;
     }

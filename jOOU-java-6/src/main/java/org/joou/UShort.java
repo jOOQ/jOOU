@@ -120,9 +120,8 @@ public final class UShort extends UNumber implements Comparable<UShort> {
     }
 
     private void rangeCheck() throws NumberFormatException {
-        if (value < MIN_VALUE || value > MAX_VALUE) {
+        if (value < MIN_VALUE || value > MAX_VALUE)
             throw new NumberFormatException("Value is out of range : " + value);
-        }
     }
 
     @Override
@@ -157,9 +156,8 @@ public final class UShort extends UNumber implements Comparable<UShort> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof UShort) {
+        if (obj instanceof UShort)
             return value == ((UShort) obj).value;
-        }
 
         return false;
     }
@@ -189,5 +187,4 @@ public final class UShort extends UNumber implements Comparable<UShort> {
     public UShort subtract(final int val) {
         return valueOf(value - val);
     }
-
 }
