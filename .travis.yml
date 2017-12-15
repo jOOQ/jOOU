@@ -1,7 +1,5 @@
 language: java
 jdk:
   - oraclejdk9
-  - openjdk8
-  - openjdk7
 install: sh -c 'cd jOOU && mvn install -DskipTests=true'
 script: sh -c 'cd jOOU && mvn test'
