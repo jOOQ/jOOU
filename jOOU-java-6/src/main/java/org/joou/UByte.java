@@ -275,7 +275,7 @@ public final class UByte extends UNumber implements Comparable<UByte> {
 
     @Override
     public String toString() {
-        return Short.valueOf(value).toString();
+        return Short.toString(value);
     }
 
     @Override

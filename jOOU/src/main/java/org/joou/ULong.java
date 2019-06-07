@@ -188,7 +188,7 @@ public final class ULong extends UNumber implements Comparable<ULong> {
 
     @Override
     public int hashCode() {
-        return Long.valueOf(value).hashCode();
+        return Long.hashCode(value);
     }
 
     @Override
