@@ -303,7 +303,10 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
 
     @Override
     public int hashCode() {
-        return Long.hashCode(value);
+        /* [java-8] */
+        if (true) return Long.hashCode(value);
+        /* [/java-8] */
+        return Long.valueOf(value).hashCode();
     }
 
     @Override

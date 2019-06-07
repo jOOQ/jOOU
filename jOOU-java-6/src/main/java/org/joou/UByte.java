@@ -260,6 +260,9 @@ public final class UByte extends UNumber implements Comparable<UByte> {
 
     @Override
     public int hashCode() {
+
+
+
         return Short.valueOf(value).hashCode();
     }
 

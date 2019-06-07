@@ -151,7 +151,10 @@ public final class UShort extends UNumber implements Comparable<UShort> {
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(value);
+        /* [java-8] */
+        if (true) return Integer.hashCode(value);
+        /* [/java-8] */
+        return Integer.valueOf(value).hashCode();
     }
 
     @Override
