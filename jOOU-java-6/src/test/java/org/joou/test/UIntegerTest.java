@@ -184,5 +184,13 @@ public class UIntegerTest {
         } catch (NumberFormatException e) {}
     }
 
+    @Test
+    public void testLeftShift() throws Exception {
+        UInteger[] vals = { uint("1023326899"), uint("1265601397"), uint("3234840308"), uint("1673932182") };
+        UInteger[] shift2ShouldMatch = { uint("4093307596"), uint("767438293"), uint("54459347"), uint("2400761433") };
 
+        for (int i = 0; i < vals.length; ++i) {
+            assertEquals(vals[i].leftShift(2), shift2ShouldMatch[i]);
+        }
+    }
 }
