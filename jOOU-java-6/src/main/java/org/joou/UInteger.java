@@ -343,6 +343,6 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
     }
 
     public UInteger leftShift(int shiftAmount) {
-        return valueOf((value << shiftAmount) % MAX_VALUE);
+        return valueOf((value << shiftAmount) & MAX_VALUE);
     }
 }
