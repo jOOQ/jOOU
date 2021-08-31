@@ -366,6 +366,10 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
         return valueOf(value ^ val);
     }
 
+    public UInteger xor(long val) {
+        return valueOf(value ^ val);
+    }
+
     public UInteger xor(UInteger val) {
         return valueOf(value ^ val.value);
     }

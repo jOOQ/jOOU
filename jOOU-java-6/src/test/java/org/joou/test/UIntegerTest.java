@@ -198,6 +198,7 @@ public class UIntegerTest {
     public void testInclusiveOr() {
         UInteger val = uint("23523523");
         assertEquals(uint(23523547), val.inclusiveOr(25));
+        assertEquals(uint(23523547), val.inclusiveOr(25L));
         assertEquals(uint(23523547), val.inclusiveOr(uint(25)));
     }
 
@@ -211,6 +212,7 @@ public class UIntegerTest {
     public void testXor() {
         UInteger val = uint("590895636");
         assertEquals(uint(590895636 ^ 5), val.xor(5));
+        assertEquals(uint(590895636 ^ 5), val.xor(5L));
         assertEquals(uint(590895636 ^ 5), val.xor(uint(5)));
     }
 }
