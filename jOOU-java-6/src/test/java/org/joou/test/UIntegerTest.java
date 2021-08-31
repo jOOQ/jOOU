@@ -186,11 +186,31 @@ public class UIntegerTest {
 
     @Test
     public void testLeftShift() throws Exception {
-        UInteger[] vals = { uint("1023326899"), uint("1265601397"), uint("3234840308"), uint("1673932182") };
-        UInteger[] shift2ShouldMatch = { uint("4093307596"), uint("767438292"), uint("54459344"), uint("2400761432") };
+        UInteger[] vals = {uint("1023326899"), uint("1265601397"), uint("3234840308"), uint("1673932182")};
+        UInteger[] shift2ShouldMatch = {uint("4093307596"), uint("767438292"), uint("54459344"), uint("2400761432")};
 
         for (int i = 0; i < vals.length; ++i) {
-            assertEquals(vals[i].leftShift(2), shift2ShouldMatch[i]);
+            assertEquals(shift2ShouldMatch[i], vals[i].leftShift(2));
         }
+    }
+
+    @Test
+    public void testInclusiveOr() {
+        UInteger val = uint("23523523");
+        assertEquals(uint(23523547), val.inclusiveOr(25));
+        assertEquals(uint(23523547), val.inclusiveOr(uint(25)));
+    }
+
+    @Test
+    public void testRightShift() {
+        UInteger val = uint("52535896");
+        assertEquals(uint(1641746), val.rightShift(5));
+    }
+
+    @Test
+    public void testXor() {
+        UInteger val = uint("590895636");
+        assertEquals(uint(590895636 ^ 5), val.xor(5));
+        assertEquals(uint(590895636 ^ 5), val.xor(uint(5)));
     }
 }

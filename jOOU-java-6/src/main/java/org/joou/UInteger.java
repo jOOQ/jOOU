@@ -345,4 +345,28 @@ public final class UInteger extends UNumber implements Comparable<UInteger> {
     public UInteger leftShift(int shiftAmount) {
         return valueOf((value << shiftAmount) & MAX_VALUE);
     }
+
+    public UInteger inclusiveOr(int val) {
+        return valueOf(value | val);
+    }
+
+    public UInteger inclusiveOr(long val) {
+        return valueOf(value | val);
+    }
+
+    public UInteger inclusiveOr(UInteger val) {
+        return valueOf(value | val.value);
+    }
+
+    public UInteger rightShift(int shiftAmount) {
+        return valueOf(value >> shiftAmount);
+    }
+
+    public UInteger xor(int val) {
+        return valueOf(value ^ val);
+    }
+
+    public UInteger xor(UInteger val) {
+        return valueOf(value ^ val.value);
+    }
 }
