@@ -11,7 +11,7 @@
 
     <groupId>org.jooq</groupId>
     <artifactId>joou-java-6</artifactId>
-    <version>0.9.4</version>
+    <version>0.9.5</version>
     <packaging>bundle</packaging>
 
     <name>jOOU</name>
@@ -65,7 +65,21 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                        <manifestEntries>
+                            <Automatic-Module-Name>org.jooq.joou</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -78,6 +92,15 @@
     <profiles>
         <profile>
             <id>release-oss</id>
+
+            <distributionManagement>
+                <repository>
+                    <id>sonatype-nexus-staging</id>
+                    <name>Nexus Release Repository</name>
+                    <url>https://central.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+            
             <build>
                 <plugins>
                     <plugin>
@@ -234,14 +257,26 @@
                                 </goals>
                                 <configuration>
                                     <target>
-                                        <delete file="${project.build.directory}/${artifactId}-${version}-javadoc.jar"/>
-                                        <zip basedir="${project.build.directory}/apidocs" destfile="${project.build.directory}/${artifactId}-${version}-javadoc.jar"/>
+                                        <delete file="${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar"/>
+                                        <zip basedir="${project.build.directory}/apidocs" destfile="${project.build.directory}/${project.artifactId}-${project.version}-javadoc.jar"/>
                                     </target>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
-
+                
+                    <!-- New release mechanism: https://central.sonatype.org/publish/publish-portal-maven/ -->
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.7.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>sonatype-nexus-staging</publishingServerId>
+                        </configuration>
+                    </plugin>
+                    
+                    <!-- This is required by Maven Central -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
