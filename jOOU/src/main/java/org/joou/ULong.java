@@ -15,6 +15,7 @@
  */
 package org.joou;
 
+import java.io.ObjectStreamException;
 import java.math.BigInteger;
 
 /**
@@ -112,6 +113,16 @@ public final class ULong extends UNumber implements Comparable<ULong> {
             throw new NumberFormatException();
         else
             this.value = value.longValue();
+    }
+
+    /**
+     * Replace version read through deserialization with cached version.
+     *
+     * @return cached instance of this object's value
+     * @throws ObjectStreamException
+     */
+    private Object readResolve() throws ObjectStreamException {
+        return valueOf(value);
     }
 
     /**

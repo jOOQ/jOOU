@@ -15,6 +15,7 @@
  */
 package org.joou;
 
+import java.io.ObjectStreamException;
 import java.math.BigInteger;
 
 /**
@@ -122,6 +123,16 @@ public final class UShort extends UNumber implements Comparable<UShort> {
     private void rangeCheck() throws NumberFormatException {
         if (value < MIN_VALUE || value > MAX_VALUE)
             throw new NumberFormatException("Value is out of range : " + value);
+    }
+
+    /**
+     * Replace version read through deserialization with cached version.
+     *
+     * @return cached instance of this object's value
+     * @throws ObjectStreamException
+     */
+    private Object readResolve() throws ObjectStreamException {
+        return valueOf(value);
     }
 
     @Override

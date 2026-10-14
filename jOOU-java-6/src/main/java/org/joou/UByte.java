@@ -81,6 +81,19 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     }
 
     /**
+     * Retrieve a cached value.
+     *
+     * @param value Cached value to retrieve
+     * @return Cached value if one exists. Null otherwise.
+     */
+    private static UByte getCached(short value) {
+        if (VALUES != null && value < VALUES.length)
+            return VALUES[value];
+
+        return null;
+    }
+
+    /**
      * Get an instance of an <code>unsigned byte</code>
      *
      * @throws NumberFormatException If <code>value</code> does not contain a
@@ -227,15 +240,21 @@ public final class UByte extends UNumber implements Comparable<UByte> {
     }
 
     /**
-     * Replace version read through deserialization with cached version. Note
-     * that this does not use the {@link #valueOfUnchecked(short)} as we have no
-     * guarantee that the value from the stream is valid.
+     * Replace version read through deserialization with cached version.
      *
-     * @return cached instance of this object's value
+     * @return cached instance of this object's value if one exists, otherwise
+     *         this object
      * @throws ObjectStreamException
      */
     private Object readResolve() throws ObjectStreamException {
-        return valueOf(value);
+        UByte cached;
+
+        // the value read could be invalid so check it
+        rangeCheck(value);
+        if ((cached = getCached(value)) != null)
+            return cached;
+
+        return this;
     }
 
     @Override
