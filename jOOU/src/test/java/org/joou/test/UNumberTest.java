@@ -24,6 +24,7 @@ import static org.joou.Unsigned.ubyte;
 import static org.joou.Unsigned.uint;
 import static org.joou.Unsigned.ulong;
 import static org.joou.Unsigned.ushort;
+import static org.junit.Assert.assertNull;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -41,6 +42,15 @@ import org.junit.Test;
  * @author Lukas Eder
  */
 public class UNumberTest {
+
+    @Test
+    public void testNullInput() {
+        assertNull(ubyte(null));
+        assertNull(ushort(null));
+        assertNull(uint(null));
+        assertNull(ulong((String) null));
+        assertNull(ulong((BigInteger) null));
+    }
 
     @Test
     public void testRange0() {

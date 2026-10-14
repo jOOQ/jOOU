@@ -178,7 +178,7 @@ public final class Unsigned {
      * @see ULong#valueOf(BigInteger)
      */
     public static ULong ulong(BigInteger value) throws NumberFormatException {
-        return ULong.valueOf(value);
+        return value == null ? null : ULong.valueOf(value);
     }
 
     /**
