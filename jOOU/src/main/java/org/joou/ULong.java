@@ -152,12 +152,12 @@ public final class ULong extends UNumber implements Comparable<ULong> {
         if (second < 0)
             throw new NumberFormatException("Bad digit at end of " + value);
 
-        long result = first * 10 + second;
-        if (compare(result, first) < 0)
+        // Check against (2^64 - 1) / 10 and its remainder before multiplying.
+        if (first > 1844674407370955161L || (first == 1844674407370955161L && second > 5))
             throw new NumberFormatException(
                 String.format("String value %s exceeds range of unsigned long", value));
 
-        this.value = result;
+        this.value = first * 10 + second;
     }
 
     @Override

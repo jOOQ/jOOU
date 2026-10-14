@@ -24,6 +24,26 @@ import org.junit.Test;
 
 public class ULongTest {
     @Test
+    public void testStringValueRejectsOutOfRangeNumbers() {
+        for (String value : new String[] {
+            "18446744073709551616", "50000000000000000000", "90000000000000000000"
+        }) {
+            try {
+                ULong.valueOf(value);
+                fail("Expected NumberFormatException for " + value);
+            } catch (NumberFormatException expected) {}
+        }
+    }
+
+    @Test
+    public void testStringValueAcceptsUpperBoundary() {
+        assertEquals(ULong.MAX, ULong.valueOf("18446744073709551615"));
+        assertEquals(ULong.MAX, ULong.valueOf("+18446744073709551615"));
+        assertEquals(ULong.MAX, ULong.valueOf("00018446744073709551615"));
+        assertEquals(ULong.MAX.subtract(1), ULong.valueOf("18446744073709551614"));
+    }
+
+    @Test
     public void testAddULongValid() throws Exception {
         assertEquals(ulong(3), ulong(1).add(ulong(2)));
     }
