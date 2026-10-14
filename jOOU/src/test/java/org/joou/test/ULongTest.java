@@ -87,6 +87,7 @@ public class ULongTest {
     @Test
     public void testSubtractULongValid() throws Exception {
         assertEquals(ulong(1), ulong(3).subtract(ulong(2)));
+        assertEquals(ulong("9223372036854775803"), ulong("9223372036854775813").subtract(10L));
     }
 
     @Test

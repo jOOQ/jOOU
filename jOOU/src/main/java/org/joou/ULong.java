@@ -263,10 +263,6 @@ public final class ULong extends UNumber implements Comparable<ULong> {
         if (compare(value, val) < 0)
             throw new NumberFormatException();
 
-        final long result = value - val;
-        if (value < 0 && result >= 0)
-            throw new NumberFormatException();
-
-        return valueOf(result);
+        return valueOf(value - val);
     }
 }
