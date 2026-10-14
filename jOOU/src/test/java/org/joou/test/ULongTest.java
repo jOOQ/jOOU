@@ -49,6 +49,13 @@ public class ULongTest {
     }
 
     @Test
+    public void testStringValueNegativeZero() {
+        assertEquals(ulong(0), ulong("-0"));
+        assertEquals(ulong(0), ulong("+0"));
+        assertEquals(ulong(0), ulong("0"));
+    }
+
+    @Test
     public void testAddULongValid() throws Exception {
         assertEquals(ulong(3), ulong(1).add(ulong(2)));
         assertEquals(ulong("9223372036854775813"), ulong(5).subtract(Long.MIN_VALUE));

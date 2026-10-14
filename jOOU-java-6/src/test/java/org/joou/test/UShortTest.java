@@ -25,6 +25,13 @@ import org.junit.Test;
 public class UShortTest {
 
     @Test
+    public void testStringValueNegativeZero() {
+        assertEquals(ushort(0), ushort("-0"));
+        assertEquals(ushort(0), ushort("+0"));
+        assertEquals(ushort(0), ushort("0"));
+    }
+
+    @Test
     public void testAddUShortValid() throws Exception {
         assertEquals(ushort(3), ushort(1).add(ushort(2)));
     }

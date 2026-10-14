@@ -35,6 +35,13 @@ public class UIntegerTest {
     private static final int NEAR_MISS_OFFSET=4;
 
     @Test
+    public void testStringValueNegativeZero() {
+        assertEquals(uint(0), uint("-0"));
+        assertEquals(uint(0), uint("+0"));
+        assertEquals(uint(0), uint("0"));
+    }
+
+    @Test
     public void testValueOfLong() {
     	for(long l=01; l<=UInteger.MAX_VALUE; l<<=1)
             assertEquals(l , uint(l).longValue());

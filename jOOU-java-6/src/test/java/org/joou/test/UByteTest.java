@@ -32,6 +32,13 @@ import org.junit.Test;
 public class UByteTest {
 
     @Test
+    public void testStringValueNegativeZero() {
+        assertEquals(ubyte(0), ubyte("-0"));
+        assertEquals(ubyte(0), ubyte("+0"));
+        assertEquals(ubyte(0), ubyte("0"));
+    }
+
+    @Test
     public void testValueOfByte() {
         for (int i = Byte.MIN_VALUE; i <= Byte.MAX_VALUE; i++)
             assertEquals(i & 0xFF, ubyte((byte) i).intValue());
