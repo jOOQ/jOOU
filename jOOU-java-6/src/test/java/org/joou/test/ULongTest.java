@@ -26,7 +26,12 @@ public class ULongTest {
     @Test
     public void testStringValueRejectsOutOfRangeNumbers() {
         for (String value : new String[] {
-            "18446744073709551616", "50000000000000000000", "90000000000000000000"
+            "18446744073709551616",
+            "50000000000000000000",
+            "90000000000000000000",
+            "-18446744073709551616",
+            "-50000000000000000000",
+            "-90000000000000000000"
         }) {
             try {
                 ULong.valueOf(value);
