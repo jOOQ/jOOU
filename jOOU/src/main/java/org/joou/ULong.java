@@ -149,7 +149,7 @@ public final class ULong extends UNumber implements Comparable<ULong> {
         if (length == 0)
             throw new NumberFormatException("Empty input string");
 
-        if (value.charAt(0) == '-' && (value.charAt(1) != '0' || value.length() > 2))
+        if (value.charAt(0) == '-' && (length > 2 || length == 2 && value.charAt(1) != '0'))
             throw new NumberFormatException(
                 String.format("Illegal leading minus sign on unsigned string %s", value));
 
