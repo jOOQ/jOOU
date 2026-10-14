@@ -51,6 +51,8 @@ public class ULongTest {
     @Test
     public void testAddULongValid() throws Exception {
         assertEquals(ulong(3), ulong(1).add(ulong(2)));
+        assertEquals(ulong("9223372036854775813"), ulong(5).subtract(Long.MIN_VALUE));
+        assertEquals(ulong(5), ulong("9223372036854775813").add(Long.MIN_VALUE));
     }
 
     @Test
@@ -58,12 +60,26 @@ public class ULongTest {
         try {
             ULong.MAX.add(ulong(1));
             fail();
-        } catch (NumberFormatException e) {}
+        }
+        catch (NumberFormatException e) {}
 
         try {
             ULong.MAX.add(ulong(ULong.MAX_VALUE));
             fail();
-        } catch (NumberFormatException e) {}
+        }
+        catch (NumberFormatException e) {}
+
+        try {
+            ULong.valueOf(5).add(Long.MIN_VALUE);
+            fail();
+        }
+        catch (NumberFormatException e) {}
+
+        try {
+            ULong.MAX.subtract(Long.MIN_VALUE);
+            fail();
+        }
+        catch (NumberFormatException e) {}
     }
 
     @Test
