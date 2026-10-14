@@ -149,9 +149,14 @@ public final class ULong extends UNumber implements Comparable<ULong> {
         if (length == 0)
             throw new NumberFormatException("Empty input string");
 
-        if (value.charAt(0) == '-' && (length > 2 || length == 2 && value.charAt(1) != '0'))
-            throw new NumberFormatException(
-                String.format("Illegal leading minus sign on unsigned string %s", value));
+        if (value.charAt(0) == '-') {
+            if (Long.parseLong(value, 10) != 0)
+                throw new NumberFormatException(
+                        String.format("Illegal leading minus sign on unsigned string %s", value));
+
+            this.value = 0;
+            return;
+        }
 
         if (length <= 18) {
             this.value = Long.parseLong(value, 10);
