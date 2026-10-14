@@ -11,7 +11,7 @@
 
     <groupId>org.jooq</groupId>
     <artifactId>joou-java-6</artifactId>
-    <version>0.9.6</version>
+    <version>0.9.7-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>jOOU</name>
@@ -269,7 +269,7 @@
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>0.7.0</version>
+                        <version>0.11.0</version>
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>sonatype-nexus-staging</publishingServerId>
